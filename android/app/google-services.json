@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1095115344746",
+    "project_id": "eye-examination-database",
+    "storage_bucket": "eye-examination-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095115344746:android:e3ea03042f2b1e26a0b313",
+        "android_client_info": {
+          "package_name": "com.example.eye_examination"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095115344746-ki9r4bgb3v1sl1nthepjkppriocjd0mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXqNGQThD0vKxdEScXDSRYRUwR6FI2LOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095115344746-ki9r4bgb3v1sl1nthepjkppriocjd0mm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
