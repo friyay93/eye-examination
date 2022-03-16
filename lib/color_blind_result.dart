@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:eye_examination/bottom_bar.dart';
 import 'package:eye_examination/models/transaction.dart';
 import 'package:flutter/material.dart';
 import '../home_screen.dart';
@@ -13,7 +10,7 @@ class ColorBlindResult extends StatelessWidget {
   final String _nameUser;
   final List _ansList;
   ColorBlindResult(this._totalScore, this._nameUser, this._ansList);
-
+  static const routeName = "/bottomBarSelect";
   void _addColorblindTx(String userName, String note, String totalScore) {
     final _newDetailColorBlind =
         UserTransaction(name: userName, notes: note, score: totalScore);
@@ -75,7 +72,7 @@ class ColorBlindResult extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           DataTable(
             dividerThickness: 1,
             columnSpacing: 56,
@@ -140,10 +137,11 @@ class ColorBlindResult extends StatelessWidget {
                       _nameUser, "Color Blind", _totalScore.toString());
                   //  print(answersList);
                   _ansList.clear();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BottomBarSelect()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => BottomBarSelect()),
+                  // );
+                  Navigator.pushNamed(context, ColorBlindResult.routeName);
                 },
                 color: Colors.blue.shade200,
                 padding: const EdgeInsets.all(10.0),

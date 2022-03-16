@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class More extends StatefulWidget {
+  static const routeName = "/logout";
   @override
   State<More> createState() => _MoreState();
 }
@@ -74,21 +75,23 @@ class _MoreState extends State<More> {
                       onTap: information[index]['text'] == "LogOut"
                           ? () {
                               if (FirebaseAuth.instance.currentUser == null) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomePageManage()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             HomePageManage()));
+                                Navigator.pushNamed(context, More.routeName);
                               } else {
                                 final provider =
                                     Provider.of<GoogleSignInProvider>(context,
                                         listen: false);
                                 provider.logout();
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomePageManage()));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             HomePageManage()));
+                                Navigator.pushNamed(context, More.routeName);
                               }
                             }
                           : () {

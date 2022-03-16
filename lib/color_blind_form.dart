@@ -1,8 +1,8 @@
-import 'package:eye_examination/color_blind_instruction.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ColorBlindForm extends StatefulWidget {
+  static const routeName = "/colorBlindInstruction";
   @override
   State<ColorBlindForm> createState() => _ColorBlindFormState();
 }
@@ -11,11 +11,6 @@ class _ColorBlindFormState extends State<ColorBlindForm> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _textcontroller = TextEditingController();
-
-  // void _addtx(String name) {
-  //   final newtx = Transactions(name: name, note: "Color Blind");
-  //   widget._transactions.add(newtx);
-  // }
   final User? user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
@@ -66,12 +61,17 @@ class _ColorBlindFormState extends State<ColorBlindForm> {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
                     // sumbit button
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ColorBlindInstruction(_textcontroller.text)),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) =>
+                    //           ColorBlindInstruction(_textcontroller.text)),
+                    // );
+
+                    // update new route 
+                    Navigator.pushNamed(context, ColorBlindForm.routeName,
+                        arguments: {"_text": _textcontroller.text});
+
                   }
                 },
                 child: const Text('Next'),

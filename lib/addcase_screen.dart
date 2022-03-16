@@ -3,6 +3,8 @@ import './color_blind_form.dart';
 import './eye_exam.dart';
 
 class AddCaseScreen extends StatelessWidget {
+  static const routeName1 = "/eyeExam";
+  static const routeName2 = "/colorBlindForm";
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -15,11 +17,16 @@ class AddCaseScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: TextButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EyeExam()),
-                  );
+                onPressed: ()
+                    // {
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(builder: (context) => EyeExam()),
+                    //   );
+                    // },
+                    {
+                  // push to eyeexam
+                  Navigator.pushNamed(context, AddCaseScreen.routeName1);
                 },
                 icon: const Text(
                   "Pupil Dectection",
@@ -44,12 +51,13 @@ class AddCaseScreen extends StatelessWidget {
               width: double.infinity,
               child: TextButton.icon(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ColorBlindForm()), // transactions = public
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) =>
+                  //           ColorBlindForm()), // transactions = public
+                  // );
+                  Navigator.pushNamed(context, AddCaseScreen.routeName2);
                 },
                 icon: const Text(
                   "Color Blind",

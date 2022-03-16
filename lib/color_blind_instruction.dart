@@ -2,12 +2,17 @@ import 'package:eye_examination/color_blind_test.dart';
 import 'package:flutter/material.dart';
 
 class ColorBlindInstruction extends StatelessWidget {
-  final String? _nameUser;
-  ColorBlindInstruction(this._nameUser);
-
+  // final String? _nameUser;
+  // ColorBlindInstruction(this._nameUser);
+  static const routeName = "/colorBlindTest";
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // get args from pushnamed
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    // text
+    final _textName = routeArgs['_text'];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -54,11 +59,16 @@ class ColorBlindInstruction extends StatelessWidget {
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue)),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ColorBlindTest(_nameUser.toString())),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) =>
+                //           ColorBlindTest(_textName.toString())),
+                // );
+                Navigator.pushNamed(context, ColorBlindInstruction.routeName,
+                    arguments: {
+                      "_text" : _textName
+                    });
               },
               icon: const Text(
                 "Next",

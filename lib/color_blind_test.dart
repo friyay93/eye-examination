@@ -1,6 +1,4 @@
-import 'package:eye_examination/bottom_bar.dart';
 import 'package:eye_examination/color_blind_result.dart';
-import 'package:eye_examination/home_screen.dart';
 import 'package:flutter/material.dart';
 
 final List testList = [
@@ -21,10 +19,6 @@ final List testList = [
 final List answersList = [];
 
 class ColorBlindTest extends StatefulWidget {
-  final String nameUser;
-
-  ColorBlindTest(this.nameUser);
-
   @override
   State<ColorBlindTest> createState() => _ColorBlindTestState();
 }
@@ -39,16 +33,11 @@ class _ColorBlindTestState extends State<ColorBlindTest> {
   void nextImage(String _score) {
     setState(() {
       answersList.add(_scorecontroller.text);
-      print(answersList);
       if (_score == testList[_imageIndex]['ans']) {
         _totalScore += 1;
       }
-      if (_imageIndex + 1 == testList.length) {
-        // print("length : ${transactions.length}");
-        
-      }
+      if (_imageIndex + 1 == testList.length) {}
       _imageIndex += 1;
-      //  print(_totalScore);
     });
   }
 
@@ -86,6 +75,9 @@ visit a doctor for further examination."""),
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    final _textname = routeArgs['_text'];
     if (alert) {
       Future.delayed(const Duration(seconds: 0), () => showAlert(context));
       alert = false;
@@ -153,6 +145,6 @@ visit a doctor for further examination."""),
                   ),
                 ),
               ])
-            : ColorBlindResult(_totalScore, widget.nameUser, answersList));
+            : ColorBlindResult(_totalScore, _textname!, answersList));
   }
 }

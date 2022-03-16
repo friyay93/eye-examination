@@ -37,7 +37,7 @@ class SignInScreen extends StatelessWidget {
                   width: size.width * 0.75,
                   decoration: BoxDecoration(
                       boxShadow: const [
-                         BoxShadow(
+                        BoxShadow(
                             color: Colors.grey,
                             spreadRadius: 0.12,
                             blurRadius: 0.01)
@@ -84,7 +84,7 @@ class SignInScreen extends StatelessWidget {
             child: Container(
                 padding: const EdgeInsets.only(top: 8, bottom: 8),
                 width: size.width * 0.45,
-                child: Text(
+                child: const Text(
                   "Sign in with Guest",
                   textAlign: TextAlign.center,
                 ),
