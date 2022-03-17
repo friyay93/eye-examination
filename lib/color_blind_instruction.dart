@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:eye_examination/color_blind_test.dart';
 import 'package:flutter/material.dart';
 
@@ -8,18 +10,21 @@ class ColorBlindInstruction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // get args from pushnamed
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    // text
-    final _textName = routeArgs['_text'];
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "Color Blind Test",
-          textAlign: TextAlign.center,
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: AppBar(
+          iconTheme: const IconThemeData(color: Colors.black),
+          elevation: 0,
+          backgroundColor: Colors.blue.shade100,
+          centerTitle: true,
+          title: const Text(
+            "Color Blind Test",
+            style: TextStyle(color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
       body: Column(
@@ -40,11 +45,11 @@ class ColorBlindInstruction extends StatelessWidget {
                 child: Center(
                   child: Text(
                     """
-                  You have to enter the number(s) for each plate you can see. 
-                  If you don't see anything just click to the next button. 
-                  There will be 12 plates. 
-                         
-                  Example: This Number is 12. Click to the next button to start!""",
+        You have to enter the number(s) for each plate you can see. 
+          If you don't see anything just click to the next button. 
+          There will be 12 plates. 
+    
+    Example: This Number is 12. Click to the next button to start!""",
                     style: TextStyle(fontSize: 13),
                   ),
                 ),
@@ -52,35 +57,63 @@ class ColorBlindInstruction extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            alignment: Alignment.bottomRight,
-            child: TextButton.icon(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue)),
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) =>
-                //           ColorBlindTest(_textName.toString())),
-                // );
-                Navigator.pushNamed(context, ColorBlindInstruction.routeName,
-                    arguments: {
-                      "_text" : _textName
-                    });
-              },
-              icon: const Text(
-                "Next",
-                style: TextStyle(color: Colors.white),
+          // Container(
+          //   margin: const EdgeInsets.only(right: 20),
+          //   alignment: Alignment.bottomRight,
+          //   child: TextButton.icon(
+          //     style: ButtonStyle(
+          //         backgroundColor: MaterialStateProperty.all(Colors.blue)),
+          //     onPressed: () {
+          //       // Navigator.push(
+          //       //   context,
+          //       //   MaterialPageRoute(
+          //       //       builder: (context) =>
+          //       //           ColorBlindTest(_textName.toString())),
+          //       // );
+          //       Navigator.pushNamed(context, ColorBlindInstruction.routeName);
+          //     },
+          //     icon: const Text(
+          //       "Next",
+          //       style: TextStyle(color: Colors.white),
+          //     ),
+          //     label: const Icon(
+          //       Icons.navigate_next,
+          //       size: 30,
+          //       color: Colors.white,
+          //     ),
+          //   ),
+
+          // )
+          SizedBox(
+            height: 9,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () => Navigator.pushNamed(
+                    context, ColorBlindInstruction.routeName),
+                child: Container(
+                  alignment: Alignment.bottomRight,
+                  width: size.width * 0.3,
+                  height: size.height * 0.05,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 2),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: const Center(
+                    child: Text(
+                      "Next",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ),
-              label: const Icon(
-                Icons.navigate_next,
-                size: 30,
-                color: Colors.white,
-              ),
-            ),
-          )
+              SizedBox(
+                width: size.width * 0.06,
+              )
+            ],
+          ),
         ],
       ),
     );

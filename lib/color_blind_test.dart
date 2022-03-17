@@ -76,8 +76,9 @@ visit a doctor for further examination."""),
   @override
   Widget build(BuildContext context) {
     final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
     final _textname = routeArgs['_text'];
+    print(_textname);
     if (alert) {
       Future.delayed(const Duration(seconds: 0), () => showAlert(context));
       alert = false;

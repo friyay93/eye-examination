@@ -1,118 +1,112 @@
 import 'package:flutter/material.dart';
-import './color_blind_form.dart';
-import './eye_exam.dart';
 
 class AddCaseScreen extends StatelessWidget {
   static const routeName1 = "/eyeExam";
   static const routeName2 = "/colorBlindForm";
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+  static const routeName3 = "/eyeDry";
+
+  Widget _addCaseWidget(BuildContext ctx) {
+    Size size = MediaQuery.of(ctx).size;
+    return Stack(
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: TextButton.icon(
-                onPressed: ()
-                    // {
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(builder: (context) => EyeExam()),
-                    //   );
-                    // },
-                    {
-                  // push to eyeexam
-                  Navigator.pushNamed(context, AddCaseScreen.routeName1);
-                },
-                icon: const Text(
-                  "Pupil Dectection",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                      fontSize: 17.5,
-                      color: Colors.black),
-                ),
-                label: Icon(
-                  Icons.add_circle_outline_outlined,
-                  size: 70,
-                  color: Colors.blue.shade300,
-                ),
-                style: const ButtonStyle(alignment: Alignment.center),
-              ),
-            ),
-            const SizedBox(
+        Positioned(
+          left: size.width * 0.1,
+          top: size.height * 0.3 - (size.height * 0.08),
+          child: InkWell(
+            onTap: () => Navigator.pushNamed(ctx, AddCaseScreen.routeName3),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(width: 2),
+                  color: Colors.blue),
+              width: size.width * 0.8,
               height: 100,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: TextButton.icon(
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) =>
-                  //           ColorBlindForm()), // transactions = public
-                  // );
-                  Navigator.pushNamed(context, AddCaseScreen.routeName2);
-                },
-                icon: const Text(
-                  "Color Blind",
+              child: const Center(
+                child: Text(
+                  "Eye Dry ",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                      color: Colors.black,
-                      fontSize: 17.5),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
-                label: Icon(
-                  Icons.add_circle_outline_outlined,
-                  size: 70,
-                  color: Colors.blue.shade300,
-                ),
-                style: const ButtonStyle(alignment: Alignment.center),
               ),
+              //  color: Colors.red,
             ),
-          ],
-        )
+          ),
+        ),
+        Positioned(
+          left: size.width * 0.1,
+          top: size.height * 0.5 - (size.height * 0.08),
+          child: InkWell(
+            onTap: () => Navigator.pushNamed(ctx, AddCaseScreen.routeName1),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(width: 2),
+                  color: Colors.blue.shade50),
+              width: size.width * 0.37,
+              height: 100,
+              child: const Center(
+                  child: Text(
+                "Eye Exam",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+              //  color: Colors.red,
+            ),
+          ),
+        ),
+        Positioned(
+          left: (size.width * 0.2 * 2) +
+              size.width * 0.1 * 1.5 -
+              size.width * 0.02,
+          top: size.height * 0.5 - (size.height * 0.08),
+          child: InkWell(
+            onTap: () => Navigator.pushNamed(ctx, AddCaseScreen.routeName2),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(width: 2),
+                  color: Colors.blue.shade50),
+              width: size.width * 0.37,
+              height: 100,
+              child: const Center(
+                  child: Text(
+                "Color Blind",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+              //  color: Colors.red,
+            ),
+          ),
+        ),
       ],
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+          child: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            backgroundColor: Colors.blue.shade100,
+            automaticallyImplyLeading: false,
+            title: const Text(
+              "Select Case",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ),
+        body: _addCaseWidget(context));
+    //
+  }
 }
-
-
-
-
-// Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Container(
-//                 color: Colors.yellow,
-//                 width: size.width * 0.35,
-//                 height: size.height * 0.2,
-//                 child: Column(
-//                   children: [
-//                     SizedBox(
-//                       height: size.height * 0.09,
-//                     ),
-//                     Text(
-//                       "Eye Exam",
-//                       textAlign: TextAlign.center,
-//                     ),
-//                   ],
-//                 )),
-//             SizedBox(
-//               width: size.width * 0.1,
-//             ),
-//             Container(
-//                 color: Colors.yellow,
-//                 width: size.width * 0.35,
-//                 height: size.height * 0.2,
-//                 child: Text(
-//                   "Eye Exam",
-//                   textAlign: TextAlign.center,
-//                 )),
-//           ],
-//         )

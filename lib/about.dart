@@ -1,19 +1,17 @@
-import 'package:eye_examination/addcase_screen.dart';
 import 'package:eye_examination/bottom_bar.dart';
+import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
-import 'package:eye_examination/manage.dart';
-import 'package:eye_examination/signin_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class More extends StatefulWidget {
+class About extends StatefulWidget {
   static const routeName = "/logout";
   @override
-  State<More> createState() => _MoreState();
+  State<About> createState() => _AboutState();
 }
 
-class _MoreState extends State<More> {
+class _AboutState extends State<About> {
   bool isTouch = false;
   List information = [
     {"text": "Help", "icon": Icons.help, "navigate": BottomBarSelect()},
@@ -21,35 +19,31 @@ class _MoreState extends State<More> {
     {
       "text": "Term of Use",
       "icon": Icons.question_answer_outlined,
-      "navigate": BottomBarSelect()
+      "navigate": EyeExam()
     },
     {
-      "text": "About",
+      "text": "About Us",
       "icon": Icons.medication_liquid_sharp,
       "navigate": BottomBarSelect()
     },
-    {
-      "text": "LogOut",
-      "icon": Icons.logout,
-      // "navigate": (ctx) {
-      //   final provider = Provider.of<GoogleSignInProvider>(ctx, listen: false);
-      //   provider.logout();
-      // }
-      "navigate": BottomBarSelect()
-    }
+    {"text": "LogOut", "icon": Icons.logout, "navigate": BottomBarSelect()}
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.blue.shade100,
-          centerTitle: true,
-          elevation: 0,
-          title: const Text(
-            "More",
-            style: TextStyle(fontSize: 20, color: Colors.black),
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.blue.shade100,
+            centerTitle: true,
+            elevation: 0,
+            title: const Text(
+              "About",
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
           ),
         ),
         body: Column(
@@ -80,7 +74,7 @@ class _MoreState extends State<More> {
                                 //     MaterialPageRoute(
                                 //         builder: (context) =>
                                 //             HomePageManage()));
-                                Navigator.pushNamed(context, More.routeName);
+                                Navigator.pushNamed(context, About.routeName);
                               } else {
                                 final provider =
                                     Provider.of<GoogleSignInProvider>(context,
@@ -91,7 +85,7 @@ class _MoreState extends State<More> {
                                 //     MaterialPageRoute(
                                 //         builder: (context) =>
                                 //             HomePageManage()));
-                                Navigator.pushNamed(context, More.routeName);
+                                Navigator.pushNamed(context, About.routeName);
                               }
                             }
                           : () {

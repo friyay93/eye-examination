@@ -17,15 +17,19 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        elevation: 0,
-        title: const Text(
-          "Eye Dectection",
-          style: TextStyle(fontSize: 20, color: Colors.black),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          elevation: 0,
+          title: const Text(
+            "Eye Dectection",
+            style: TextStyle(fontSize: 20, color: Colors.black),
+          ),
+          backgroundColor: Colors.blue.shade100,
         ),
-        backgroundColor: Colors.blue.shade100,
       ),
       body: Container(
         child: transactions.isEmpty

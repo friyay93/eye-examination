@@ -16,8 +16,13 @@ class _ColorBlindFormState extends State<ColorBlindForm> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-            title: const Text("Color Blind"), automaticallyImplyLeading: true),
+        appBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
+          child: AppBar(
+              title: const Text("Color Blind"),
+              automaticallyImplyLeading: true),
+        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -68,10 +73,14 @@ class _ColorBlindFormState extends State<ColorBlindForm> {
                     //           ColorBlindInstruction(_textcontroller.text)),
                     // );
 
-                    // update new route 
-                    Navigator.pushNamed(context, ColorBlindForm.routeName,
-                        arguments: {"_text": _textcontroller.text});
-
+                    // update new route
+                    if (user != null) {
+                      Navigator.pushNamed(context, ColorBlindForm.routeName,
+                          arguments: {"_text": user?.displayName});
+                    } else {
+                      Navigator.pushNamed(context, ColorBlindForm.routeName,
+                          arguments: {"_text": _textcontroller.text});
+                    }
                   }
                 },
                 child: const Text('Next'),
