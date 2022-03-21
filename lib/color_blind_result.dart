@@ -73,57 +73,57 @@ class ColorBlindResult extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          DataTable(
-            dividerThickness: 1,
-            columnSpacing: 56,
-            dataRowHeight: 20,
-            headingRowHeight: 23,
-            headingRowColor: MaterialStateColor.resolveWith(
-                (states) => Colors.grey.shade400),
-            border: TableBorder.all(width: 2, color: Colors.white),
-            horizontalMargin: 50,
-            // showBottomBorder: true,
-            columns: const [
-              DataColumn(
-                  label: Center(
-                child: FittedBox(
-                  child: Text("Yours Answers"),
-                  //alignment: Alignment.center,
-                ),
-              )),
-              DataColumn(
-                  label: FittedBox(
-                child: Text("Answers"),
-                alignment: Alignment.center,
-              ))
-            ],
-            rows: List.generate(listAnswer.length, (index) {
-              return DataRow(
-                  cells: [
-                    DataCell(Center(
-                      child: Text(
-                        "${_ansList[index]}",
-                        // textAlign: TextAlign.center,
-                      ),
-                    )),
-                    DataCell(Center(
-                      child: Text(
-                        "${listAnswer[index]}",
-                        textAlign: TextAlign.center,
-                      ),
-                    ))
-                  ],
-                  color: MaterialStateColor.resolveWith(
-                    (states) {
-                      if (index % 2 == 0) {
-                        return Colors.grey.shade300;
-                      } else {
-                        return Colors.grey.shade200;
-                      }
-                    },
-                  ));
-            }),
-          ),
+          // DataTable(
+          //   dividerThickness: 1,
+          //   columnSpacing: 56,
+          //   dataRowHeight: 20,
+          //   headingRowHeight: 23,
+          //   headingRowColor: MaterialStateColor.resolveWith(
+          //       (states) => Colors.grey.shade400),
+          //   border: TableBorder.all(width: 2, color: Colors.white),
+          //   horizontalMargin: 50,
+          //   // showBottomBorder: true,
+          //   columns: const [
+          //     DataColumn(
+          //         label: Center(
+          //       child: FittedBox(
+          //         child: Text("Yours Answers"),
+          //         //alignment: Alignment.center,
+          //       ),
+          //     )),
+          //     DataColumn(
+          //         label: FittedBox(
+          //       child: Text("Answers"),
+          //       alignment: Alignment.center,
+          //     ))
+          //   ],
+          //   rows: List.generate(listAnswer.length, (index) {
+          //     return DataRow(
+          //         cells: [
+          //           DataCell(Center(
+          //             child: Text(
+          //               "${_ansList[index]}",
+          //               // textAlign: TextAlign.center,
+          //             ),
+          //           )),
+          //           DataCell(Center(
+          //             child: Text(
+          //               "${listAnswer[index]}",
+          //               textAlign: TextAlign.center,
+          //             ),
+          //           ))
+          //         ],
+          //         color: MaterialStateColor.resolveWith(
+          //           (states) {
+          //             if (index % 2 == 0) {
+          //               return Colors.grey.shade300;
+          //             } else {
+          //               return Colors.grey.shade200;
+          //             }
+          //           },
+          //         ));
+          //   }),
+          // ),
           const SizedBox(
             height: 25,
           ),

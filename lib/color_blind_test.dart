@@ -79,6 +79,7 @@ visit a doctor for further examination."""),
         ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
     final _textname = routeArgs['_text'];
     print(_textname);
+
     if (alert) {
       Future.delayed(const Duration(seconds: 0), () => showAlert(context));
       alert = false;

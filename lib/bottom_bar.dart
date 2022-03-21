@@ -9,7 +9,7 @@ class BottomBarSelect extends StatefulWidget {
 }
 
 class _BottomBarSelectState extends State<BottomBarSelect> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   final List<Widget> _widgetSelect = [HomeScreen(), AddCaseScreen(), About()];
 
   void _onItemTap(int index) {

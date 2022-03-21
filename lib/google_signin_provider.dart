@@ -1,4 +1,7 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -20,10 +23,20 @@ class GoogleSignInProvider extends ChangeNotifier {
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-      notifyListeners();
+      final String? userId = FirebaseAuth.instance.currentUser?.uid;
+      FirebaseFirestore.instance
+          .collection("userCount")
+          .doc("n0h8gjw0qzj68eGB4zrP")
+          .collection("Count")
+          .doc(userId)
+          .set({"count": 0});
+      print(await FirebaseFirestore.instance
+          .collection("userCount")
+          .doc("n0h8gjw0qzj68eGB4zrP")
+          .collection("Count")
+          .doc(userId));
     } on PlatformException catch (error) {
-      print(error.details);
-      Fluttertoast.showToast(msg: error.details, gravity: ToastGravity.TOP);
+      print(error);
     }
   }
 

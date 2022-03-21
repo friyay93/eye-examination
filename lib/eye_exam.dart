@@ -1,9 +1,14 @@
+import 'package:eye_examination/dummy.dart';
 import 'package:flutter/material.dart';
 
 import 'color_blind_result.dart';
 
 class EyeExam extends StatelessWidget {
-  const EyeExam({Key? key}) : super(key: key);
+   EyeExam({Key? key}) : super(key: key);
+    static const routeSymbolW = "/symbolw";
+
+   
+
 
   Widget _bodyWidget(BuildContext ctx) {
     Size size = MediaQuery.of(ctx).size;
@@ -13,18 +18,15 @@ class EyeExam extends StatelessWidget {
           top: size.height * 0.4 - (size.height * 0.08) - (size.height * 0.12),
           left: size.width * 0.15,
           child: InkWell(
-            onTap: () => Navigator.pushNamed(ctx, ColorBlindResult.routeName),
+            onTap: () => Navigator.pushNamed(ctx, EyeExam.routeSymbolW),
             highlightColor: Colors.grey.shade300,
             child: Column(
               children: [
                 SizedBox(
                   width: size.width * 0.2,
                   height: size.height * 0.12,
-                  child: RotatedBox(
-                    quarterTurns: 2,
-                    child: Image.asset(
-                      "assets/images/symbol_e.png",
-                    ),
+                  child: Image.asset(
+                    "assets/images/symbol_e.png",
                   ),
                 ),
                 const SizedBox(

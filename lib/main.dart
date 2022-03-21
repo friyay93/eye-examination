@@ -5,11 +5,14 @@ import 'package:eye_examination/color_blind_form.dart';
 import 'package:eye_examination/color_blind_instruction.dart';
 import 'package:eye_examination/color_blind_result.dart';
 import 'package:eye_examination/color_blind_test.dart';
+import 'package:eye_examination/dummy.dart';
+import 'package:eye_examination/dummy2.dart';
 import 'package:eye_examination/eye_dry.dart';
 import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
 import 'package:eye_examination/manage.dart';
 import 'package:eye_examination/about.dart';
+import 'package:eye_examination/symbol_e.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.blue.shade100),
           //initialRoute: "/",
           routes: {
-            AddCaseScreen.routeName1: (context) => const EyeExam(),
+            AddCaseScreen.routeName1: (context) => EyeExam(),
             AddCaseScreen.routeName2: (context) => ColorBlindInstruction(),
             AddCaseScreen.routeName3: (context) => EyeDry(),
             ColorBlindForm.routeName: (context) => ColorBlindTest(),
@@ -53,7 +56,14 @@ class MyApp extends StatelessWidget {
             ColorBlindResult.routeName: (context) => BottomBarSelect(),
 
             // more route
-            About.routeName: (context) => HomePageManage()
+            About.routeName: (context) => HomePageManage(),
+
+            // eye exam
+            EyeExam.routeSymbolW: (context) => SymbolE(),
+
+            // test dummy 
+            Dummy.routeName: (context) => EyeDry(),
+            Dummy2.routeName: (context) => EyeDry()
           },
         ),
       );

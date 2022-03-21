@@ -1,13 +1,36 @@
-import 'dart:ui';
-
-import 'package:eye_examination/dry_blink_test.dart';
+import 'package:eye_examination/dummy.dart';
+import 'package:eye_examination/dummy2.dart';
 import 'package:flutter/material.dart';
 
 class EyeDry extends StatelessWidget {
-  const EyeDry({Key? key}) : super(key: key);
+  final List<Widget> _pageTest = [Dummy(), Dummy2(), Dummy(), Dummy()];
+  Map<String, String?> number = {"_text": "0"};
+  int count = 0;
+  // _checkArgs(BuildContext ctx) {
+  //   if (ModalRoute.of(ctx)!.settings != null &&
+  //       ModalRoute.of(ctx)!.settings.arguments != null) {
+
+  //     return routeArg;
+  //   } else {
+  //     final routeArg = {'id': 0, 'title': ''};
+  //     print(routeArg);
+  //     return false;
+  //   }
+  // }
 
   Widget _eyeDryWidget(BuildContext ctx) {
+    if (ModalRoute.of(ctx)!.settings != null &&
+        ModalRoute.of(ctx)!.settings.arguments != null) {
+      number = ModalRoute.of(ctx)!.settings.arguments as Map<String, String?>;
+    }
+    print(number);
+    final colors = number['color'];
+    final valueNumber = number['_text'];
+    print(valueNumber);
+    print(colors);
+
     Size size = MediaQuery.of(ctx).size;
+    // final number = double.parse(_textname!);
     return Stack(
       children: [
         Positioned(
@@ -18,7 +41,9 @@ class EyeDry extends StatelessWidget {
           child: Container(
             width: size.width * 0.4,
             height: size.height * 0.2,
-            decoration: BoxDecoration(border: Border.all(width: 2)),
+            decoration: BoxDecoration(
+                border: Border.all(width: 2),
+                color: colors == "grey" ? Colors.grey : Colors.white),
             child: Column(
               children: [
                 SizedBox(
@@ -52,7 +77,9 @@ class EyeDry extends StatelessWidget {
           child: Container(
             width: size.width * 0.4,
             height: size.height * 0.2,
-            decoration: BoxDecoration(border: Border.all(width: 2)),
+            decoration: BoxDecoration(
+                border: Border.all(width: 2),
+                color: colors == "grey" ? Colors.grey : Colors.white),
             child: Column(
               children: [
                 SizedBox(
@@ -159,9 +186,17 @@ class EyeDry extends StatelessWidget {
                 border: Border.all(width: 2),
                 borderRadius: BorderRadius.circular(8)),
             child: InkWell(
-              onTap: () {
-                Navigator.push(ctx,
-                    MaterialPageRoute(builder: (context) => DryBlinkTest()));
+              onTap: () async {
+                // for (var i = 0; i <= _pageTest.length - 1; i++) {
+                print(count);
+                count++;
+                print(count);
+                Navigator.push(
+                    ctx,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            _pageTest[double.parse(valueNumber!).toInt()]));
+//                 }
               },
               child: const Center(
                 child: Text(
@@ -179,6 +214,10 @@ class EyeDry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final routeArgs =
+    //     ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
+
+    // final _textname = routeArgs['_text']!;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:

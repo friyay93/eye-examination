@@ -15,7 +15,6 @@ class _DryBlinkTestState extends State<DryBlinkTest>
   final resolutionPresets = ResolutionPreset.values;
   ResolutionPreset currentResolutionPreset = ResolutionPreset.high;
   // FlashMode? _currentFlashMode;
-  bool _flash = false;
   int timeCount = 0;
 
   void didChangeAppLifecycleState(AppLifecycleState state) {
