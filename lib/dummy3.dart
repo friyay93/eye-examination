@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:eye_examination/dummy2.dart';
 import 'package:flutter/material.dart';
 import 'eye_dry.dart';
 
-class Dummy1 extends StatelessWidget {
+class Dummy3 extends StatelessWidget {
   static const routeName = '/return';
 
   _delayBack(BuildContext ctx) {
@@ -16,12 +17,12 @@ class Dummy1 extends StatelessWidget {
       body: Center(
         child: TextButton(
             onPressed: () {
-              colorList[0] = Colors.grey;
+              colorList[2] = Colors.grey;
               print(colorList[0]);
-              Navigator.popAndPushNamed(context, Dummy1.routeName,
-                  arguments: {"_pageList": "1"});
+              Navigator.popAndPushNamed(context, Dummy2.routeName,
+                  arguments: {"_pageList": "3"});
             },
-            child: Text('go back test')),
+            child: Text('go back test3')),
       ),
     );
   }

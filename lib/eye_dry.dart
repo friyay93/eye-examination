@@ -1,36 +1,30 @@
 import 'package:eye_examination/dummy.dart';
 import 'package:eye_examination/dummy2.dart';
+import 'package:eye_examination/dummy3.dart';
 import 'package:flutter/material.dart';
 
-class EyeDry extends StatelessWidget {
-  final List<Widget> _pageTest = [Dummy(), Dummy2(), Dummy(), Dummy()];
-  Map<String, String?> number = {"_text": "0"};
-  int count = 0;
-  // _checkArgs(BuildContext ctx) {
-  //   if (ModalRoute.of(ctx)!.settings != null &&
-  //       ModalRoute.of(ctx)!.settings.arguments != null) {
+List colorList = [Colors.white, Colors.white, Colors.white, Colors.white];
 
-  //     return routeArg;
-  //   } else {
-  //     final routeArg = {'id': 0, 'title': ''};
-  //     print(routeArg);
-  //     return false;
-  //   }
-  // }
+class EyeDry extends StatelessWidget {
+  static const routeName = "/dummy";
+  final List<Widget> _pageTest = [Dummy1(), Dummy2(), Dummy3()];
+  Map<String, String?> number = {};
+  int count = 0;
+  double? valueNumber;
+  int? _pageList = 0;
 
   Widget _eyeDryWidget(BuildContext ctx) {
     if (ModalRoute.of(ctx)!.settings != null &&
         ModalRoute.of(ctx)!.settings.arguments != null) {
       number = ModalRoute.of(ctx)!.settings.arguments as Map<String, String?>;
+      print(number);
+      final changeValue = double.parse(number['_pageList'].toString());
+      _pageList = changeValue.toInt();
+      print(_pageList);
     }
-    print(number);
-    final colors = number['color'];
-    final valueNumber = number['_text'];
-    print(valueNumber);
-    print(colors);
 
+    print(_pageList.runtimeType);
     Size size = MediaQuery.of(ctx).size;
-    // final number = double.parse(_textname!);
     return Stack(
       children: [
         Positioned(
@@ -43,7 +37,8 @@ class EyeDry extends StatelessWidget {
             height: size.height * 0.2,
             decoration: BoxDecoration(
                 border: Border.all(width: 2),
-                color: colors == "grey" ? Colors.grey : Colors.white),
+                color:
+                    colorList[0] == Colors.white ? Colors.white : Colors.grey),
             child: Column(
               children: [
                 SizedBox(
@@ -79,7 +74,8 @@ class EyeDry extends StatelessWidget {
             height: size.height * 0.2,
             decoration: BoxDecoration(
                 border: Border.all(width: 2),
-                color: colors == "grey" ? Colors.grey : Colors.white),
+                color:
+                    colorList[1] == Colors.white ? Colors.white : Colors.grey),
             child: Column(
               children: [
                 SizedBox(
@@ -115,7 +111,10 @@ class EyeDry extends StatelessWidget {
           child: Container(
             width: size.width * 0.4,
             height: size.height * 0.2,
-            decoration: BoxDecoration(border: Border.all(width: 2)),
+            decoration: BoxDecoration(
+                border: Border.all(width: 2),
+                color:
+                    colorList[2] == Colors.white ? Colors.white : Colors.grey),
             child: Column(
               children: [
                 SizedBox(
@@ -187,16 +186,15 @@ class EyeDry extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8)),
             child: InkWell(
               onTap: () async {
-                // for (var i = 0; i <= _pageTest.length - 1; i++) {
-                print(count);
+                // print(count);
                 count++;
-                print(count);
+                // print(count);
+                // Navigator.pushNamed(ctx, EyeDry.routeName);
                 Navigator.push(
-                    ctx,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            _pageTest[double.parse(valueNumber!).toInt()]));
-//                 }
+                  ctx,
+                  MaterialPageRoute(
+                      builder: (context) => _pageTest[_pageList!]),
+                );
               },
               child: const Center(
                 child: Text(
@@ -214,10 +212,6 @@ class EyeDry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final routeArgs =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
-
-    // final _textname = routeArgs['_text']!;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:

@@ -7,6 +7,7 @@ import 'package:eye_examination/color_blind_result.dart';
 import 'package:eye_examination/color_blind_test.dart';
 import 'package:eye_examination/dummy.dart';
 import 'package:eye_examination/dummy2.dart';
+import 'package:eye_examination/dummy3.dart';
 import 'package:eye_examination/eye_dry.dart';
 import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
@@ -61,9 +62,12 @@ class MyApp extends StatelessWidget {
             // eye exam
             EyeExam.routeSymbolW: (context) => SymbolE(),
 
-            // test dummy 
-            Dummy.routeName: (context) => EyeDry(),
-            Dummy2.routeName: (context) => EyeDry()
+            // eye dry
+            EyeDry.routeName: (context) => Dummy1(),
+            // test dummy
+            Dummy1.routeName: (context) => EyeDry(),
+            Dummy2.routeName: (context) => EyeDry(),
+            Dummy3.routeName: (context) => EyeDry()
           },
         ),
       );

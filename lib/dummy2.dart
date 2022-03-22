@@ -15,8 +15,13 @@ class Dummy2 extends StatelessWidget {
       body: Center(
         child: TextButton(
             onPressed: () {
-              Navigator.popAndPushNamed(context, Dummy2.routeName,
-                  arguments: {"_text": "2", "color": "grey"});
+              colorList[1] = Colors.grey;
+              print(colorList[1]);
+
+              Navigator.popAndPushNamed(
+                context, Dummy2.routeName,
+                 arguments: {"_pageList": "2"}
+              );
             },
             child: Text('go back 2')),
       ),
