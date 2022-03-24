@@ -21,7 +21,8 @@ class EyeDry extends StatelessWidget {
       final changeValue = double.parse(number['_pageList'].toString());
       _pageList = changeValue.toInt();
       print(_pageList);
-    }
+    } else
+      print("value is null");
 
     print(_pageList.runtimeType);
     Size size = MediaQuery.of(ctx).size;

@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'color_blind_result.dart';
 
 class EyeExam extends StatelessWidget {
-   EyeExam({Key? key}) : super(key: key);
-    static const routeSymbolW = "/symbolw";
-
-   
-
+  EyeExam({Key? key}) : super(key: key);
+  static const routeSymbolW = "/symbolw";
 
   Widget _bodyWidget(BuildContext ctx) {
     Size size = MediaQuery.of(ctx).size;
