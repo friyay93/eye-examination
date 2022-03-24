@@ -274,7 +274,8 @@ class _SymbolEState extends State<SymbolE> {
           )
         : Container(
             child: Center(
-              child: Text("test level eye : ${_question[_count - 1]['level']}"),
+              child: Text(
+                  "test level eye : ${_question[_questionIndex]['level']}"),
             ),
           );
   }
