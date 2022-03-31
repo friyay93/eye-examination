@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:eye_examination/addcase_screen.dart';
 import 'package:eye_examination/bottom_bar.dart';
-import 'package:eye_examination/color_blind_form.dart';
 import 'package:eye_examination/color_blind_instruction.dart';
 import 'package:eye_examination/color_blind_result.dart';
 import 'package:eye_examination/color_blind_test.dart';
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
               primaryColor: Colors.blue.shade100,
               visualDensity: VisualDensity.adaptivePlatformDensity),
           home: AnimatedSplashScreen(
-              duration: 1500,
+              duration: 1000,
               splash: Image.asset("assets/images/sheep_splash.png"),
               curve: Curves.ease,
               nextScreen: HomePageManage(),
@@ -53,21 +52,21 @@ class MyApp extends StatelessWidget {
             AddCaseScreen.routeName2: (context) => ColorBlindInstruction(),
             AddCaseScreen.routeName3: (context) => EyeDry(),
             ColorBlindForm.routeName: (context) => ColorBlindTest(),
-            ColorBlindInstruction.routeName: (context) => ColorBlindForm(),
+            // ColorBlindInstruction.routeName: (context) => ColorBlindForm(),
             ColorBlindResult.routeName: (context) => BottomBarSelect(),
 
             // more route
             About.routeName: (context) => HomePageManage(),
 
             // eye exam
-            EyeExam.routeSymbolW: (context) => SymbolE(),
+            EyeExam.routeSymbolW: (context) => EyeExamTest(),
 
             // eye dry
             EyeDry.routeName: (context) => Dummy1(),
             // test dummy
             Dummy1.routeName: (context) => EyeDry(),
-            Dummy2.routeName: (context) => EyeDry(),
-            Dummy3.routeName: (context) => EyeDry()
+            // Dummy2.routeName: (context) => EyeDry(),
+            // Dummy3.routeName: (context) => EyeDry()
           },
         ),
       );

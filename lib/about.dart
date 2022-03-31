@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 
 class About extends StatefulWidget {
   static const routeName = "/logout";
+
+  About({Key? key}) : super(key: key);
   @override
   State<About> createState() => _AboutState();
 }
@@ -60,7 +62,7 @@ class _AboutState extends State<About> {
                 textAlign: TextAlign.left,
               ),
             ),
-            Container(
+            SizedBox(
               height: 400,
               child: ListView.builder(
                   itemCount: information.length,
@@ -102,7 +104,7 @@ class _AboutState extends State<About> {
                               top: index != 0
                                   ? BorderSide(
                                       width: 1.0, color: Colors.grey.shade400)
-                                  : BorderSide(color: Colors.white)),
+                                  : const BorderSide(color: Colors.white)),
                         ),
                         padding: const EdgeInsets.all(14),
                         // color: Colors.white,

@@ -1,8 +1,6 @@
 import 'package:eye_examination/dummy.dart';
 import 'package:flutter/material.dart';
 
-import 'color_blind_result.dart';
-
 class EyeExam extends StatelessWidget {
   EyeExam({Key? key}) : super(key: key);
   static const routeSymbolW = "/symbolw";
@@ -15,7 +13,8 @@ class EyeExam extends StatelessWidget {
           top: size.height * 0.4 - (size.height * 0.08) - (size.height * 0.12),
           left: size.width * 0.15,
           child: InkWell(
-            onTap: () => Navigator.pushNamed(ctx, EyeExam.routeSymbolW),
+            onTap: () => Navigator.pushNamed(ctx, EyeExam.routeSymbolW,
+                arguments: {"type": "e"}),
             highlightColor: Colors.grey.shade300,
             child: Column(
               children: [
@@ -40,6 +39,8 @@ class EyeExam extends StatelessWidget {
           top: size.height * 0.4 - (size.height * 0.08) - (size.height * 0.12),
           left: (size.width * 0.2 * 2) + (size.width * 0.2),
           child: InkWell(
+            onTap: () => Navigator.pushNamed(ctx, EyeExam.routeSymbolW,
+                arguments: {"type": "c"}),
             child: Column(
               children: [
                 SizedBox(
@@ -48,7 +49,7 @@ class EyeExam extends StatelessWidget {
                   child: RotatedBox(
                     quarterTurns: 2,
                     child: Image.asset(
-                      "assets/images/symbol_c.png",
+                      "assets/images/symbol_c_.png",
                     ),
                   ),
                 ),
@@ -66,6 +67,8 @@ class EyeExam extends StatelessWidget {
           top: size.height * 0.67 - (size.height * 0.08) - (size.height * 0.12),
           left: size.width * 0.40,
           child: InkWell(
+            onTap: () => Navigator.pushNamed(ctx, EyeExam.routeSymbolW,
+                arguments: {"type": "letter"}),
             child: Column(
               children: [
                 SizedBox(

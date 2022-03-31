@@ -1,29 +1,28 @@
 import 'package:eye_examination/color_blind_result.dart';
 import 'package:flutter/material.dart';
 
-final List testList = [
-  {'img': "assets/images/test_01.jpg", 'ans': '74'},
-  {'img': "assets/images/test_02.jpg", 'ans': '6'},
-  {'img': "assets/images/test_03.jpg", 'ans': '16'},
-  {'img': "assets/images/test_04.jpg", 'ans': '2'},
-  {'img': "assets/images/test_05.jpg", 'ans': '29'},
-  {'img': "assets/images/test_06.jpg", 'ans': '7'},
-  {'img': "assets/images/test_07.jpg", 'ans': '45'},
-  {'img': "assets/images/test_08.jpg", 'ans': '5'},
-  {'img': "assets/images/test_09.jpg", 'ans': '97'},
-  {'img': "assets/images/test_10.jpg", 'ans': '8'},
-  {'img': "assets/images/test_11.jpg", 'ans': '42'},
-  {'img': "assets/images/test_12.jpg", 'ans': '3'},
-];
-
-final List answersList = [];
-
 class ColorBlindTest extends StatefulWidget {
   @override
   State<ColorBlindTest> createState() => _ColorBlindTestState();
 }
 
 class _ColorBlindTestState extends State<ColorBlindTest> {
+  final List _testList = [
+    {'img': "assets/images/test_01.jpg", 'ans': '74'},
+    {'img': "assets/images/test_02.jpg", 'ans': '6'},
+    {'img': "assets/images/test_03.jpg", 'ans': '16'},
+    {'img': "assets/images/test_04.jpg", 'ans': '2'},
+    {'img': "assets/images/test_05.jpg", 'ans': '29'},
+    {'img': "assets/images/test_06.jpg", 'ans': '7'},
+    {'img': "assets/images/test_07.jpg", 'ans': '45'},
+    {'img': "assets/images/test_08.jpg", 'ans': '5'},
+    {'img': "assets/images/test_09.jpg", 'ans': '97'},
+    {'img': "assets/images/test_10.jpg", 'ans': '8'},
+    {'img': "assets/images/test_11.jpg", 'ans': '42'},
+    {'img': "assets/images/test_12.jpg", 'ans': '3'},
+  ];
+  final List _answersList = [];
+
   final TextEditingController _scorecontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   int _imageIndex = 0;
@@ -32,11 +31,11 @@ class _ColorBlindTestState extends State<ColorBlindTest> {
 
   void nextImage(String _score) {
     setState(() {
-      answersList.add(_scorecontroller.text);
-      if (_score == testList[_imageIndex]['ans']) {
+      _answersList.add(_scorecontroller.text);
+      if (_score == _testList[_imageIndex]['ans']) {
         _totalScore += 1;
       }
-      if (_imageIndex + 1 == testList.length) {}
+      if (_imageIndex + 1 == _testList.length) {}
       _imageIndex += 1;
     });
   }
@@ -88,12 +87,12 @@ visit a doctor for further examination."""),
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: _imageIndex < testList.length
+        body: _imageIndex < _testList.length
             ? Column(children: [
                 Container(
                     margin: const EdgeInsets.only(top: 100),
                     height: size.height / 2,
-                    child: Image.asset(testList[_imageIndex]['img'])),
+                    child: Image.asset(_testList[_imageIndex]['img'])),
                 const SizedBox(
                   height: 30,
                 ),
@@ -141,12 +140,12 @@ visit a doctor for further examination."""),
                         _scorecontroller.clear();
                       }
                     },
-                    child: _imageIndex + 1 < testList.length
+                    child: _imageIndex + 1 < _testList.length
                         ? const Text('Next')
                         : const Text("Sumbit"),
                   ),
                 ),
               ])
-            : ColorBlindResult(_totalScore, _textname!, answersList));
+            : ColorBlindResult(_totalScore, _textname!, _answersList));
   }
 }

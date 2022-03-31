@@ -1,11 +1,13 @@
+import 'dart:math';
+import 'package:eye_examination/symbol_e_result.dart';
 import 'package:flutter/material.dart';
 
-class SymbolE extends StatefulWidget {
+class EyeExamTest extends StatefulWidget {
   @override
-  State<SymbolE> createState() => _SymbolEState();
+  State<EyeExamTest> createState() => _EyeExamTestState();
 }
 
-class _SymbolEState extends State<SymbolE> {
+class _EyeExamTestState extends State<EyeExamTest> {
   final _answer = [
     {"rotate": 1},
     {"rotate": 2},
@@ -18,13 +20,14 @@ class _SymbolEState extends State<SymbolE> {
       "level": "20/200",
       "size": 26,
       "rotate": [4, 3],
-      "wrongCount": 2
+      "wrongCount": 2,
     },
     {
       "level": "20/70",
       "size": 10,
       "rotate": [4, 3, 4, 2],
-      "wrongCount": 2
+      "wrongCount": 2,
+      "words": ["C", "D", "E", "F", "L", "O", "P", "T", "Z"]
     },
     {
       "level": "20/50",
@@ -59,52 +62,13 @@ class _SymbolEState extends State<SymbolE> {
   int _wrong = 0;
   int _itemIndex = 0;
   int _wrongFrequency = 0;
+  final List _testLettersList = [];
 
   void _checkAnswer(int index) {
-    print("before _questionIndex $_questionIndex");
-    print("before _itemIndex $_itemIndex");
-    //  print("Hello");
-    // print(_answer[index]['rotate']);
-    // try {
-    //   final _rotateList = _question[_indexQuestion]['rotate'] as List<int>;
-    //   if (_score + 1 == _rotateList.length) {
-    //     print("come condition");
-    //     setState(() {
-    //       _indexQuestion++;
-    //       _score = 0;
-    //     });
-    //     _count++;
-    //   } else {
-    //     // print("Hellworld");
-    //     if (_score <= _rotateList.length) {
-    //       print("Hi");
-    //       // print("item : pic ${_ro9tateList[_score]}");
-    //       if (_rotateList[_score] == _answer[index]['rotate']) {
-    //         //  print("${_rotateList[_score]} == ${_answer[index]['rotate']}");
-    //         setState(() {
-    //           _score++;
-    //           print("score equal : $_score");
-    //         });
-    //       } else if (_rotateList[_score] != _answer[index]['rotate'] &&
-    //           _score - 1 != -1) {
-    //         setState(() {});
-    //         print(_score);
-
-    //         _score--;
-    //         print("score not equal$_score");
-    //       }
-    //     } else {
-    //       print("Out of index");
-    //     }
-    //   }
-    // } on Exception catch (e) {
-    //   throw Exception("out index $e");
-    // }
     if ((_question[_questionIndex]['rotate'] as List<int>)[_itemIndex] ==
         _answer[index]['rotate']) {
       if (_itemIndex + 1 ==
           (_question[_questionIndex]['rotate'] as List<int>).length) {
-        print("next round");
         setState(() {
           _questionIndex++;
           _score = 0;
@@ -112,12 +76,9 @@ class _SymbolEState extends State<SymbolE> {
         });
         _count++;
       }
-      print("answer is corret");
       setState(() {
         _score++;
         _itemIndex++;
-        print("score $_score");
-        print("item index $_itemIndex");
       });
     } else
 
@@ -125,12 +86,8 @@ class _SymbolEState extends State<SymbolE> {
     {
       if ((_question[_questionIndex]['rotate'] as List<int>)[_itemIndex] !=
           _answer[index]['rotate']) {
-        print("answer != test");
-
         if (_wrong == _question[_questionIndex]['wrongCount']) {
           _wrongFrequency++;
-          print("wrong_frequency: $_wrongFrequency");
-          print("_wrong == wrongCount");
           if (_questionIndex > 0) {
             setState(() {
               _questionIndex--;
@@ -138,150 +95,316 @@ class _SymbolEState extends State<SymbolE> {
             });
           }
           _wrong = 0;
-          print("wrong from _wrong == wrongCount : $_wrong");
         } else if (_wrong <
             double.parse(_question[_questionIndex]['wrongCount'].toString())
                 .toInt()) {
-          print("_wrong < wrongCount");
           if (_itemIndex == 0) {
-            print("_itemindex == 0");
-            //  _questionIndex--;
             _itemIndex =
                 (_question[_questionIndex]['rotate'] as List<int>).length - 1;
             setState(() {});
           } else if (_itemIndex > 0) {
-            print("_itemindex > 0");
             _itemIndex--;
             setState(() {});
           }
           _wrong++;
-          print("wrong score_ $_wrong score");
         }
       }
     }
-    print("after _questionIndex $_questionIndex");
-    print("after _itemIndex $_itemIndex");
-  }
-
-  Widget _testPictureWidget(Size size) {
-    // return Positioned(
-    //   left: size.width * 0.3,
-    //   top: size.height * 0.2,
-    //   child: Container(
-    //     width: size.width * 0.4,
-    //     height: size.height * 0.2,
-    //     decoration:
-    //         BoxDecoration(border: Border.all(width: 2, color: Colors.grey)),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         SizedBox(
-    //           width: 50,
-    //           height: 50,
-    //           // color: Colors.red,
-    //           child: RotatedBox(
-    //               quarterTurns: _answer[indexQuestion]["rotate"] as int,
-    //               child: Image.asset("assets/images/symbol_e.png")),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-    return Container(
-      width: size.width * 0.6,
-      height: size.height * 0.2,
-      decoration: BoxDecoration(
-        border: Border.all(width: 1),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          RotatedBox(
-            quarterTurns: // _question[_indexQuestion]["rotate"] as int,
-                double.parse((_question[_questionIndex]['rotate']
-                            as List<int>)[_itemIndex]
-                        .toString())
-                    .toInt(),
-            child: Image.asset(
-              "assets/images/symbol_e.png",
-              width: double.parse(_question[_questionIndex]["size"].toString()),
-              height:
-                  double.parse(_question[_questionIndex]["size"].toString()),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _answerWidget(Size size) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: GridView.builder(
-          padding: EdgeInsets.all(30),
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 40,
-            childAspectRatio: 1.2,
-          ),
-          itemCount: _answer.length,
-          itemBuilder: (ctx, index) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 2),
-                    color: Colors.blue.shade100,
-                  ),
-                  child: InkWell(
-                    splashColor: Colors.grey,
-                    onTap: () {
-                      _checkAnswer(index);
-                      // print(index);
-                    },
-                    child: Container(
-                      width: size.width * 0.2,
-                      height: size.height * 0.1,
-                      margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(8),
-                      decoration: const BoxDecoration(),
-                      child: RotatedBox(
-                          quarterTurns: _answer[index]["rotate"] as int,
-                          child: Image.asset("assets/images/symbol_e.png")),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }),
-    );
   }
 
   Widget _symbolEWidget(BuildContext ctx) {
     Size size = MediaQuery.of(ctx).size;
-    return _wrongFrequency < 2 && _count < _question.length
+    return _wrongFrequency < 2 && _count + 1 < _question.length
         ? Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const SizedBox(
                 height: 25,
               ),
-              _testPictureWidget(size),
-              _answerWidget(size)
+              Container(
+                width: size.width * 0.6,
+                height: size.height * 0.2,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RotatedBox(
+                      quarterTurns: // _question[_indexQuestion]["rotate"] as int,
+                          double.parse((_question[_questionIndex]['rotate']
+                                      as List<int>)[_itemIndex]
+                                  .toString())
+                              .toInt(),
+                      child: Image.asset(
+                        "assets/images/symbol_e.png",
+                        width: double.parse(
+                            _question[_questionIndex]["size"].toString()),
+                        height: double.parse(
+                            _question[_questionIndex]["size"].toString()),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: GridView.builder(
+                    padding: const EdgeInsets.all(30),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 40,
+                      childAspectRatio: 1.2,
+                    ),
+                    itemCount: _answer.length,
+                    itemBuilder: (ctx, index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              color: Colors.blue.shade100,
+                            ),
+                            child: InkWell(
+                              splashColor: Colors.grey,
+                              onTap: () {
+                                _checkAnswer(index);
+                                // print(index);
+                              },
+                              child: Container(
+                                width: size.width * 0.2,
+                                height: size.height * 0.1,
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(),
+                                child: RotatedBox(
+                                    quarterTurns:
+                                        _answer[index]["rotate"] as int,
+                                    child: Image.asset(
+                                        "assets/images/symbol_e.png")),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              )
             ],
           )
-        : Container(
-            child: Center(
-              child: Text(
-                  "test level eye : ${_question[_questionIndex]['level']}"),
-            ),
-          );
+        : SymbolEResult(_question, _questionIndex);
+  }
+
+  Widget _symbolCWidget(BuildContext ctx) {
+    Size size = MediaQuery.of(ctx).size;
+    return _wrongFrequency < 2 && _count + 1 < _question.length
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const SizedBox(
+                height: 25,
+              ),
+              Container(
+                width: size.width * 0.6,
+                height: size.height * 0.2,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RotatedBox(
+                      quarterTurns: // _question[_indexQuestion]["rotate"] as int,
+                          double.parse((_question[_questionIndex]['rotate']
+                                      as List<int>)[_itemIndex]
+                                  .toString())
+                              .toInt(),
+                      child: Image.asset(
+                        "assets/images/symbol_c.png",
+                        width: double.parse(
+                            _question[_questionIndex]["size"].toString()),
+                        height: double.parse(
+                            _question[_questionIndex]["size"].toString()),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: GridView.builder(
+                    padding: const EdgeInsets.all(30),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 40,
+                      childAspectRatio: 1.2,
+                    ),
+                    itemCount: _answer.length,
+                    itemBuilder: (ctx, index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              color: Colors.blue.shade100,
+                            ),
+                            child: InkWell(
+                              splashColor: Colors.grey,
+                              onTap: () {
+                                _checkAnswer(index);
+                                // print(index);
+                              },
+                              child: Container(
+                                width: size.width * 0.2,
+                                height: size.height * 0.1,
+                                margin: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(8),
+                                decoration: const BoxDecoration(),
+                                child: RotatedBox(
+                                    quarterTurns:
+                                        _answer[index]["rotate"] as int,
+                                    child: Image.asset(
+                                        "assets/images/symbol_c.png")),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              )
+            ],
+          )
+        : SymbolEResult(_question, _questionIndex);
+  }
+
+  _shuffleLetterTest() {
+    final _letterList = _question[_questionIndex]["words"] as List;
+    final _letterNumberRnd = Random().nextInt(_letterList.length);
+    final _testLetters = _letterNumberRnd;
+    print("_testLetters : $_testLetters");
+    _testLettersList.add(_testLetters);
+    print(_testLettersList);
+    return _testLettersList[0];
+  }
+
+  _shuffleLetterChoice(Size size) {
+    List _numberChoiceList = [];
+    final _letterList = _question[_questionIndex]["words"] as List;
+    //  final _rnd = Random();
+    final _answerChoice = _shuffleLetterTest();
+    // final _ranSeed = _randomSeed();
+    for (var i = 0; i <= 2; i++) {
+      int? _letterNumberRnd;
+      _letterNumberRnd = Random().nextInt(_letterList.length);
+      while (_numberChoiceList.contains(_letterNumberRnd)) {
+        _letterNumberRnd = Random().nextInt(_letterList.length);
+      }
+      _numberChoiceList.add(_letterNumberRnd);
+
+      print("number choice : $_numberChoiceList");
+    }
+    _numberChoiceList.add(_answerChoice);
+
+    // print("test word : ${_shuffleLetterTest()[1]}");
+    print("answer choice : $_answerChoice");
+    print("number choice : $_numberChoiceList");
+
+    _numberChoiceList.shuffle();
+    // ["C", "D", "E", "F", "L", "O", "P", "T", "Z"]
+    print([
+      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[0]]}",
+      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[1]]}",
+      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[2]]}",
+      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[3]]}"
+    ]);
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: GridView.builder(
+          padding: const EdgeInsets.all(30),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 40,
+            childAspectRatio: 1.2,
+          ),
+          itemCount: _numberChoiceList.length,
+          itemBuilder: (ctx, index) {
+            print(_numberChoiceList[index]);
+            return Column(children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2),
+                  color: Colors.blue.shade100,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    print(
+                        "check answer ${(_question[_questionIndex]['words'] as List)[_numberChoiceList[index]]}");
+                  },
+                  splashColor: Colors.grey,
+                  child: Container(
+                    width: size.width * 0.2,
+                    height: size.height * 0.1,
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(),
+                    child: Text(
+                        "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[index]]}"),
+                  ),
+                ),
+              ),
+            ]);
+          },
+        ));
+  }
+
+  Widget _letterWidget(BuildContext ctx) {
+    Size size = MediaQuery.of(ctx).size;
+    return _wrongFrequency < 2 && _count + 1 < _question.length
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const SizedBox(
+                height: 25,
+              ),
+              Container(
+                width: size.width * 0.6,
+                height: size.height * 0.2,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        // color: Colors.red,
+                        width: double.parse(
+                            _question[_questionIndex]["size"].toString()),
+                        height: double.parse(
+                            _question[_questionIndex]["size"].toString()),
+                        child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: Text((_question[_questionIndex]["words"]
+                                as List<String>)[_shuffleLetterTest()])))
+                  ],
+                ),
+              ),
+              _shuffleLetterChoice(size)
+            ],
+          )
+        : SymbolEResult(_question, _questionIndex);
   }
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    final _type = routeArgs['type'];
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
@@ -291,12 +414,20 @@ class _SymbolEState extends State<SymbolE> {
           elevation: 0,
           backgroundColor: Colors.blue.shade100,
           title: const Text(
-            "Close Right Eye",
+            "Symbol E Exam",
             style: TextStyle(color: Colors.black),
           ),
         ),
       ),
-      body: _symbolEWidget(context),
+      body: _type == "e"
+          ? _symbolEWidget(context)
+          : _type == "c"
+              ? _symbolCWidget(context)
+              : _type == "letter"
+                  ? _letterWidget(context)
+                  : const Center(
+                      child: Text("Not my type"),
+                    ),
     );
   }
 }
