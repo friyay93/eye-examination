@@ -6,7 +6,8 @@ class ColorBlindTest extends StatefulWidget {
   State<ColorBlindTest> createState() => _ColorBlindTestState();
 }
 
-class _ColorBlindTestState extends State<ColorBlindTest> {
+class _ColorBlindTestState extends State<ColorBlindTest>
+    with TickerProviderStateMixin {
   final List _testList = [
     {'img': "assets/images/test_01.jpg", 'ans': '74'},
     {'img': "assets/images/test_02.jpg", 'ans': '6'},
@@ -28,6 +29,37 @@ class _ColorBlindTestState extends State<ColorBlindTest> {
   int _imageIndex = 0;
   int _totalScore = 0;
   bool alert = true;
+  Animation? _animation;
+  AnimationController? _controller;
+  FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _animation = Tween(begin: 300.0, end: 50.0).animate(_controller!)
+      ..addListener(() {
+        setState(() {});
+      });
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _controller!.forward();
+      } else {
+        _controller!.reverse();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    _focusNode.dispose();
+
+    super.dispose();
+  }
 
   void nextImage(String _score) {
     setState(() {
@@ -108,6 +140,7 @@ visit a doctor for further examination."""),
                       child: Form(
                         key: _formKey,
                         child: TextFormField(
+                          focusNode: _focusNode,
                           // maxLength: 2,
                           controller: _scorecontroller,
                           decoration: const InputDecoration(
@@ -146,6 +179,67 @@ visit a doctor for further examination."""),
                   ),
                 ),
               ])
+            // SafeArea(
+            //     child: Stack(
+            //       children: [
+            //         Positioned(
+            //           top: size.height * 0.1,
+            //           left: size.width * 0.5 - (size.width * 0.2 / 2),
+            //           child: Container(
+            //             //color: Colors.red,
+            //             width: size.width * 0.2,
+            //             height: size.height * 0.1,
+            //             child: Center(
+            //               child: Column(
+            //                 children: [
+            //                   const Text(
+            //                     "Test",
+            //                     style: TextStyle(
+            //                         fontWeight: FontWeight.bold, fontSize: 20),
+            //                   ),
+            //                   const SizedBox(
+            //                     height: 8,
+            //                   ),
+            //                   Text(
+            //                     "$_imageIndex / 12",
+            //                     style: const TextStyle(
+            //                         fontWeight: FontWeight.bold, fontSize: 20),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //         Positioned(
+            //           top: size.height * 0.24,
+            //           left: size.width * 0.5 - (size.width * 0.7 / 2),
+            //           child: Container(
+            //             decoration: const BoxDecoration(
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                     //  color: Colors.black,
+            //                     spreadRadius: 0.1,
+            //                     blurRadius: 5),
+            //               ],
+            //               // border:
+            //               //     Border.all(width: 2, color: Colors.grey.shade200),
+            //             ),
+            //             //color: Colors.red,
+            //             width: size.width * 0.7,
+            //             // height: size.height * 0.5,
+            //             child: Image.asset(
+            //               _testList[_imageIndex]['img'],
+            //             ),
+            //           ),
+            //         ),
+            //         Positioned(
+            //           left: size.width * 0.1,
+            //           bottom: size.height * 0.15,
+            //           child: Text("Enter Number"),
+            //         ),
+            //       ],
+            //     ),
+            //   )
             : ColorBlindResult(_totalScore, _textname!, _answersList));
   }
 }
