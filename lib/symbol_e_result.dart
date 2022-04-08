@@ -1,3 +1,4 @@
+import 'package:eye_examination/bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -13,44 +14,45 @@ class SymbolEResult extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Stack(
-      children: [
-        Positioned(
-          left: size.width * 0.5 - (size.width * 0.4 / 2),
-          top: size.height * 0.25 -
-              AppBar.preferredHeightFor(context,
-                  Size.fromHeight(MediaQuery.of(context).size.height * 0.08)),
-          child: Container(
-            width: size.width * 0.4,
-            //  color: Colors.red,
-            child: const FittedBox(
-              fit: BoxFit.fill,
-              child: Text("Vision Score",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      body: Stack(
+        children: [
+          Positioned(
+            left: size.width * 0.5 - (size.width * 0.4 / 2),
+            top: size.height * 0.25 -
+                AppBar.preferredHeightFor(context,
+                    Size.fromHeight(MediaQuery.of(context).size.height * 0.08)),
+            child: Container(
+              width: size.width * 0.4,
+              //  color: Colors.red,
+              child: const FittedBox(
+                fit: BoxFit.fill,
+                child: Text("Vision Score",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
             ),
           ),
-        ),
-        Positioned(
-          top: size.height * 0.27,
-          left: size.width * 0.5 - (size.width * 0.6 / 2),
-          child: Container(
-            width: size.width * 0.6,
-            height: size.height * 0.2,
-            decoration: BoxDecoration(
-                border: Border.all(width: 3), color: Colors.blue.shade100),
-            child: Center(
-                child: _questionIndex == 6
-                    ? Text(
-                        "${_question[_questionIndex - 1]['level']}",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 23),
-                      )
-                    : Text("${_question[_questionIndex]['level']}",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 23))),
+          Positioned(
+            top: size.height * 0.27,
+            left: size.width * 0.5 - (size.width * 0.6 / 2),
+            child: Container(
+              width: size.width * 0.6,
+              height: size.height * 0.2,
+              decoration: BoxDecoration(
+                  border: Border.all(width: 3), color: Colors.blue.shade100),
+              child: Center(
+                  child: _questionIndex == 6
+                      ? Text(
+                          "this is max level : ${_question[_questionIndex - 1]['level']}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 23),
+                        )
+                      : Text("${_question[_questionIndex]['level']}",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 23))),
+            ),
           ),
-        ),
-        Positioned(
+          Positioned(
             top: size.height * 0.52,
             left: size.width * 0.185,
             child: Column(
@@ -64,9 +66,23 @@ class SymbolEResult extends StatelessWidget {
                   style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
                 )
               ],
-            ))
-      ],
-    ));
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => BottomBarSelect())));
+              },
+              child: Text("Back"),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 

@@ -74,34 +74,34 @@ class _ColorBlindTestState extends State<ColorBlindTest>
 
   void showAlert(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              actionsPadding: const EdgeInsets.only(bottom: 25),
-              actionsAlignment: MainAxisAlignment.center,
-              actions: [
-                TextButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue)),
-                    onPressed: () {
-                      return Navigator.pop(context);
-                    },
-                    child: const Text(
-                      "OK",
-                      style: TextStyle(color: Colors.white),
-                    ))
-              ],
-              backgroundColor: Colors.blue[50],
-              content: const Text("""
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        actionsPadding: const EdgeInsets.only(bottom: 25),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue)),
+              onPressed: () {
+                return Navigator.pop(context);
+              },
+              child: const Text(
+                "OK",
+                style: TextStyle(color: Colors.white),
+              ))
+        ],
+        backgroundColor: Colors.blue[50],
+        content: const Text("""
         The result of this test is not 
             a medical test result.
 
 
     If an abnormality is found please  
 visit a doctor for further examination."""),
-            ));
+      ),
+    );
   }
 
   @override

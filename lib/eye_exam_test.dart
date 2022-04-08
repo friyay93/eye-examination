@@ -1,5 +1,10 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eye_examination/home_screen.dart';
+import 'package:eye_examination/models/transaction.dart';
 import 'package:eye_examination/symbol_e_result.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class EyeExamTest extends StatefulWidget {
@@ -63,26 +68,81 @@ class _EyeExamTestState extends State<EyeExamTest> {
   // ลดระดับกลับ Index แรก
   int _score = 0;
   int _questionIndex = 1;
-  int _count = 0;
+  int _count = 1;
   int _wrong = 0;
   int _itemIndex = 0;
   int _wrongFrequency = 0;
   final List _testLettersList = [];
   final _words = ["C", "D", "E", "F", "L", "O", "P", "T", "Z"];
 
-  void _checkAnswer(int index) {
-    if ((_question[_questionIndex]['rotate'] as List<int>)[_itemIndex] ==
+  Future<void> _addRecord(UserTransaction _userData) async {
+    final _uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_uid)
+        .collection("eyeExam")
+        .add({
+      "name": _userData.name,
+      "notes": _userData.notes,
+      "score": _userData.score
+    });
+  }
+
+  _checkAnswer(int index) {
+    if (_wrongFrequency == 2) {
+      final _username = FirebaseAuth.instance.currentUser!.displayName;
+      final _userExamTransactions = UserTransaction(
+          name: _username,
+          notes: "Symbol E",
+          score: "${_question[_questionIndex]['level']}");
+      if (FirebaseAuth.instance.currentUser != null) {
+        print("add");
+        _addRecord(_userExamTransactions);
+        print("add complete");
+      } else {
+        transactions.add(_userExamTransactions);
+      }
+
+      return Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return SymbolEResult(_question, _questionIndex);
+      }));
+    } else if ((_question[_questionIndex]['rotate'] as List<int>)[_itemIndex] ==
         _answer[index]['rotate']) {
       if (_itemIndex + 1 ==
           (_question[_questionIndex]['rotate'] as List<int>).length) {
-        setState(() {
-          _questionIndex++;
-          _score = 0;
-          print(_itemIndex);
-          _itemIndex = -1; //
-          print(_itemIndex);
-          _answer.shuffle();
-        });
+        if (_count + 1 == _question.length) {
+          final _userExamTransactions = UserTransaction(
+              name: "John",
+              notes: "eyeexam",
+              score: "${_question[_questionIndex]['level']}");
+          transactions.add(_userExamTransactions);
+          if (FirebaseAuth.instance.currentUser != null) {
+            final _username = FirebaseAuth.instance.currentUser!.displayName;
+            final _userExamTransactions = UserTransaction(
+                name: _username,
+                notes: "Symbol E",
+                score: "${_question[_questionIndex]['level']}");
+            if (FirebaseAuth.instance.currentUser != null) {
+              _addRecord(_userExamTransactions);
+            } else {
+              transactions.add(_userExamTransactions);
+            }
+          }
+          return Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return SymbolEResult(_question, _questionIndex);
+          }));
+        } else {
+          setState(() {
+            _questionIndex++;
+            _score = 0;
+            print(_itemIndex);
+            _itemIndex = -1; //
+            print(_itemIndex);
+            _answer.shuffle();
+          });
+        }
         _count++;
       }
       setState(() {
@@ -300,16 +360,61 @@ class _EyeExamTestState extends State<EyeExamTest> {
 // _testLetterList => index [1,2]
 // _numberChoiceList => [0,1,2,4]
   _checkLetter(index, List _numberChoiceList) {
-    if (_words[_testLettersList[0]] == _words[_numberChoiceList[index]]) {
+    //print("questionIndex before $_questionIndex");
+    //  print(_count);
+    if (_wrongFrequency == 2) {
+      final _username = FirebaseAuth.instance.currentUser!.displayName;
+      final _userExamTransactions = UserTransaction(
+          name: _username,
+          notes: "Symbol E",
+          score: "${_question[_questionIndex]['level']}");
+      if (FirebaseAuth.instance.currentUser != null) {
+        print("add");
+        _addRecord(_userExamTransactions);
+        print("add complete");
+      } else {
+        transactions.add(_userExamTransactions);
+      }
+
+      return Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return SymbolEResult(_question, _questionIndex);
+      }));
+    } else if (_words[_testLettersList[0]] ==
+        _words[_numberChoiceList[index]]) {
       if (_itemIndex + 1 ==
           (_question[_questionIndex]['rotate'] as List<int>).length) {
-        setState(() {
-          _questionIndex++;
-          _score = 0;
-          _itemIndex = -1;
-          _testLettersList.clear();
-        });
-        _count++;
+        if (_count + 1 == _question.length) {
+          final _username = FirebaseAuth.instance.currentUser!.displayName;
+          final _userExamTransactions = UserTransaction(
+              name: _username,
+              notes: "Symbol E",
+              score: "${_question[_questionIndex]['level']}");
+          if (FirebaseAuth.instance.currentUser != null) {
+            print("add");
+            _addRecord(_userExamTransactions);
+            print("add complete");
+          } else {
+            transactions.add(_userExamTransactions);
+          }
+
+          return Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return SymbolEResult(_question, _questionIndex);
+          }));
+        } else {
+          setState(() {
+            _questionIndex++;
+            _score = 0;
+            _itemIndex = -1;
+            _count++;
+            print("questionIndex $_questionIndex");
+            print(_count);
+
+            _testLettersList.clear();
+            //  print("questionIndex after $_questionIndex");
+          });
+        }
       }
       setState(() {
         _score++;
@@ -356,10 +461,10 @@ class _EyeExamTestState extends State<EyeExamTest> {
     // final _letterList = _question[_questionIndex]["words"] as List;
     final _letterNumberRnd = Random().nextInt(_words.length);
     final _testLetters = _letterNumberRnd;
-    print("_testLetters : $_testLetters");
+    //print("_testLetters : $_testLetters");
     // random number
     _testLettersList.add(_testLetters);
-    print(_testLettersList);
+    // print(_testLettersList);
     return _testLettersList[0]; // return index
   }
 
@@ -376,21 +481,21 @@ class _EyeExamTestState extends State<EyeExamTest> {
       }
       _numberChoiceList.add(_letterNumberRnd);
 
-      print("number choice : $_numberChoiceList");
+      //  print("number choice : $_numberChoiceList");
     }
 
     // print("test word : ${_shuffleLetterTest()[1]}");
-    print("answer choice : $_answerChoice");
-    print("number choice : $_numberChoiceList");
+    // print("answer choice : $_answerChoice");
+    // print("number choice : $_numberChoiceList");
 
     _numberChoiceList.shuffle();
     // ["C", "D", "E", "F", "L", "O", "P", "T", "Z"]
-    print([
-      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[0]]}",
-      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[1]]}",
-      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[2]]}",
-      "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[3]]}"
-    ]);
+    // print([
+    //   "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[0]]}",
+    //   "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[1]]}",
+    //   "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[2]]}",
+    //   "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[3]]}"
+    // ]);
     return Align(
       alignment: Alignment.bottomCenter,
       child: GridView.builder(
@@ -403,7 +508,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
         ),
         itemCount: _numberChoiceList.length,
         itemBuilder: (ctx, index) {
-          print(_numberChoiceList[index]);
+          // print(_numberChoiceList[index]);
           return Column(children: [
             Container(
               decoration: BoxDecoration(
@@ -412,8 +517,8 @@ class _EyeExamTestState extends State<EyeExamTest> {
               ),
               child: InkWell(
                 onTap: () {
-                  print(
-                      "check answer ${(_question[_questionIndex]['words'] as List)[_numberChoiceList[index]]}");
+                  // print(
+                  //     "check answer ${(_question[_questionIndex]['words'] as List)[_numberChoiceList[index]]}");
                   _checkLetter(index, _numberChoiceList);
                 },
                 splashColor: Colors.grey,
@@ -441,45 +546,47 @@ class _EyeExamTestState extends State<EyeExamTest> {
 
   Widget _letterWidget(BuildContext ctx) {
     Size size = MediaQuery.of(ctx).size;
-    return _wrongFrequency < 2 && _count + 1 < _question.length
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return
+        //_wrongFrequency < 2 && _count + 1 < _question.length
+        // ?
+        Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        const SizedBox(
+          height: 25,
+        ),
+        Container(
+          width: size.width * 0.6,
+          height: size.height * 0.2,
+          decoration: BoxDecoration(
+            border: Border.all(width: 1),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 25,
-              ),
               Container(
-                width: size.width * 0.6,
-                height: size.height * 0.2,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1),
+                // color: Colors.red,
+                width:
+                    double.parse(_question[_questionIndex]["size"].toString()),
+                height:
+                    double.parse(_question[_questionIndex]["size"].toString()),
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: Text(
+                    (_question[_questionIndex][
+                            "words"] // ["C", "D", "E", "F", "L", "O", "P", "T", "Z"][index]
+                        as List<String>)[_shuffleTest()],
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                     // color: Colors.red,
-                      width: double.parse(
-                          _question[_questionIndex]["size"].toString()),
-                      height: double.parse(
-                          _question[_questionIndex]["size"].toString()),
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        child: Text(
-                          (_question[_questionIndex][
-                                  "words"] // ["C", "D", "E", "F", "L", "O", "P", "T", "Z"][index]
-                              as List<String>)[_shuffleTest()],
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              _shuffleChoice(size)
+              )
             ],
-          )
-        : SymbolEResult(_question, _questionIndex);
+          ),
+        ),
+        _shuffleChoice(size)
+      ],
+    );
+    // : SymbolEResult(_question, _questionIndex);
   }
 
   @override

@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eye_examination/models/transaction.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../home_screen.dart';
 
 final List listAnswer = [74, 6, 16, 2, 29, 7, 45, 5, 97, 8, 42, 3];
-final List listAnswer2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 class ColorBlindResult extends StatelessWidget {
   final int _totalScore;
@@ -11,10 +12,25 @@ class ColorBlindResult extends StatelessWidget {
   final List _ansList;
   ColorBlindResult(this._totalScore, this._nameUser, this._ansList);
   static const routeName = "/bottomBarSelect";
+
+  // add transactions
   void _addColorblindTx(String userName, String note, String totalScore) {
     final _newDetailColorBlind =
         UserTransaction(name: userName, notes: note, score: totalScore);
     transactions.add(_newDetailColorBlind);
+  }
+
+  Future<void> _addRecord(UserTransaction _userData) async {
+    final _uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_uid)
+        .collection("eyeExam")
+        .add({
+      "name": _userData.name,
+      "notes": _userData.notes,
+      "score": _userData.score
+    });
   }
 
   @override
@@ -26,11 +42,9 @@ class ColorBlindResult extends StatelessWidget {
             width: double.infinity,
             height: 104,
             margin: const EdgeInsets.only(top: 38),
-            //color: Colors.grey,
             child: Column(
               children: [
                 Container(
-                  // color: Colors.red,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       border: Border.all(width: 1),
@@ -133,8 +147,16 @@ class ColorBlindResult extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 onPressed: () {
-                  _addColorblindTx(
-                      _nameUser, "Color Blind", _totalScore.toString());
+                  final _newDetailColorBlind = UserTransaction(
+                      name: _nameUser,
+                      notes: "Color Blind",
+                      score: _totalScore.toString());
+                  _addRecord(_newDetailColorBlind);
+                  // _addColorblindTx(
+                  //   _nameUser,
+                  //   "Color Blind",
+                  //   _totalScore.toString(),
+                  // );
                   //  print(answersList);
                   _ansList.clear();
                   // Navigator.push(

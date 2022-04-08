@@ -1,6 +1,7 @@
 import 'package:eye_examination/bottom_bar.dart';
 import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
+import 'package:eye_examination/test_video.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   bool isTouch = false;
   List information = [
-    {"text": "Help", "icon": Icons.help, "navigate": BottomBarSelect()},
+    {"text": "Help", "icon": Icons.help, "navigate": TestVideo()},
     {"text": "FeedBack", "icon": Icons.mail, "navigate": BottomBarSelect()},
     {
       "text": "Term of Use",

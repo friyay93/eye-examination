@@ -12,7 +12,7 @@ import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
 import 'package:eye_examination/manage.dart';
 import 'package:eye_examination/about.dart';
-import 'package:eye_examination/symbol_e.dart';
+import 'package:eye_examination/eye_exam_test.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
