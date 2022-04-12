@@ -30,10 +30,10 @@ class GoogleSignInProvider extends ChangeNotifier {
       //     .doc(uid)
       //     .set({"count": 0});
 
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(_userLogin!.uid)
-          .set({});
+      // await FirebaseFirestore.instance
+      //     .collection("users")
+      //     .doc(_userLogin!.uid)
+      //     .set({});
     } on PlatformException catch (error) {
       print(error);
     }

@@ -1,7 +1,12 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eye_examination/main.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DryBlinkTest extends StatefulWidget {
   @override
@@ -14,8 +19,9 @@ class _DryBlinkTestState extends State<DryBlinkTest>
   bool _isCameraInitialized = false;
   final resolutionPresets = ResolutionPreset.values;
   ResolutionPreset currentResolutionPreset = ResolutionPreset.high;
-  // FlashMode? _currentFlashMode;
   int timeCount = 0;
+  bool _isRecordingInProgress = false;
+  final storage = FirebaseStorage.instance;
 
   void didChangeAppLifecycleState(AppLifecycleState state) {
     final CameraController? cameraController = _controller;
@@ -39,10 +45,8 @@ class _DryBlinkTestState extends State<DryBlinkTest>
     final previousCameraController = _controller;
     // Instantiating the camera controller
     final CameraController cameraController = CameraController(
-      cameraDescription,
-      currentResolutionPreset,
-      imageFormatGroup: ImageFormatGroup.jpeg,
-    );
+        cameraDescription, currentResolutionPreset,
+        imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: false);
 
     await previousCameraController?.dispose();
 
@@ -73,11 +77,42 @@ class _DryBlinkTestState extends State<DryBlinkTest>
     }
   }
 
-  // เริ่มถ่าย video => set ค่า _isRecordingInProgress = true
+  Future<void> startVideoRecording() async {
+    final CameraController? cameraController = _controller;
 
-  // stop video
+    if (_controller!.value.isRecordingVideo) {
+      return;
+    }
 
-  // cameras index 0 , 1 => 0 backcamera, 1 front camera
+    try {
+      await cameraController!.startVideoRecording();
+      _isRecordingInProgress = true;
+    } on Exception catch (e) {
+      print('Error starting to record video: $e');
+    }
+  }
+
+  Future<XFile?> _stopVideoRecording() async {
+    if (!_controller!.value.isRecordingVideo) {
+      // Recording is already is stopped state
+      return null;
+    }
+    try {
+      XFile file = await _controller!.stopVideoRecording();
+      if (file == null) {
+        return null;
+      }
+      setState(() {
+        _isRecordingInProgress = false;
+        print(_isRecordingInProgress);
+      });
+      return file;
+    } on CameraException catch (e) {
+      print('Error stopping video recording: $e');
+      return null;
+    }
+  }
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -93,6 +128,13 @@ class _DryBlinkTestState extends State<DryBlinkTest>
     super.dispose();
   }
 
+  Future uploadFile(File file, String nameFile) async {
+    final fileName = nameFile;
+    final destination = 'files/$fileName';
+    final ref = FirebaseStorage.instance.ref(destination);
+    return ref.putFile(file);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -102,17 +144,54 @@ class _DryBlinkTestState extends State<DryBlinkTest>
               body: Stack(
                 children: [
                   AspectRatio(
-                      aspectRatio: 1 / _controller!.value.aspectRatio,
-                      child: Stack(
-                        children: [CameraPreview(_controller!)],
-                      )),
-                  Positioned(
-                      child: Center(
-                    child: Image.asset(
-                      "assets/images/frame_eye.png",
-                      width: 280,
+                    aspectRatio: 1 / _controller!.value.aspectRatio,
+                    child: Stack(
+                      children: [
+                        CameraPreview(_controller!),
+                        const Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(5.0)),
+                              width: size.width,
+                              height: size.height * 0.08,
+                              child: IconButton(
+                                  onPressed: () async {
+                                    if (_isRecordingInProgress) {
+                                      XFile? rawVideo =
+                                          await _stopVideoRecording();
+                                      File filePath = File(rawVideo!.path);
+                                      // print(rawVideo);
+                                      // print(filePath);
+                                      // print(rawVideo.name);
+
+                                      uploadFile(filePath, rawVideo.name);
+                                    } else {
+                                      await startVideoRecording();
+                                    }
+                                  },
+                                  icon: _isRecordingInProgress
+                                      ? const Icon(
+                                          Icons.circle,
+                                          color: Colors.red,
+                                          size: 45,
+                                        )
+                                      : const Icon(
+                                          Icons.circle,
+                                          color: Colors.white,
+                                          size: 45,
+                                        )),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  )),
+                  ),
                 ],
               ),
             )

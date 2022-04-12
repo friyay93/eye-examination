@@ -75,19 +75,6 @@ class _EyeExamTestState extends State<EyeExamTest> {
   final List _testLettersList = [];
   final _words = ["C", "D", "E", "F", "L", "O", "P", "T", "Z"];
 
-  Future<void> _addRecord(UserTransaction _userData) async {
-    final _uid = FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(_uid)
-        .collection("eyeExam")
-        .add({
-      "name": _userData.name,
-      "notes": _userData.notes,
-      "score": _userData.score
-    });
-  }
-
   _checkAnswer(int index) {
     if (_wrongFrequency == 2) {
       final _username = FirebaseAuth.instance.currentUser!.displayName;
@@ -97,7 +84,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
           score: "${_question[_questionIndex]['level']}");
       if (FirebaseAuth.instance.currentUser != null) {
         print("add");
-        _addRecord(_userExamTransactions);
+        AddRecord()._addRecord(_userExamTransactions);
         print("add complete");
       } else {
         transactions.add(_userExamTransactions);
@@ -124,7 +111,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
                 notes: "Symbol E",
                 score: "${_question[_questionIndex]['level']}");
             if (FirebaseAuth.instance.currentUser != null) {
-              _addRecord(_userExamTransactions);
+              AddRecord()._addRecord(_userExamTransactions);
             } else {
               transactions.add(_userExamTransactions);
             }
@@ -357,8 +344,6 @@ class _EyeExamTestState extends State<EyeExamTest> {
         : SymbolEResult(_question, _questionIndex);
   }
 
-// _testLetterList => index [1,2]
-// _numberChoiceList => [0,1,2,4]
   _checkLetter(index, List _numberChoiceList) {
     //print("questionIndex before $_questionIndex");
     //  print(_count);
@@ -370,7 +355,8 @@ class _EyeExamTestState extends State<EyeExamTest> {
           score: "${_question[_questionIndex]['level']}");
       if (FirebaseAuth.instance.currentUser != null) {
         print("add");
-        _addRecord(_userExamTransactions);
+        // _addRecord(_userExamTransactions);
+        AddRecord()._addRecord(_userExamTransactions);
         print("add complete");
       } else {
         transactions.add(_userExamTransactions);
@@ -392,7 +378,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
               score: "${_question[_questionIndex]['level']}");
           if (FirebaseAuth.instance.currentUser != null) {
             print("add");
-            _addRecord(_userExamTransactions);
+            AddRecord()._addRecord(_userExamTransactions);
             print("add complete");
           } else {
             transactions.add(_userExamTransactions);
@@ -532,7 +518,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
                     child: Text(
                       "${(_question[_questionIndex]['words'] as List)[_numberChoiceList[index]]}",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),
                 ),
@@ -618,5 +604,20 @@ class _EyeExamTestState extends State<EyeExamTest> {
                       child: Text("Not my type"),
                     ),
     );
+  }
+}
+
+class AddRecord {
+  Future<void> _addRecord(UserTransaction _userData) async {
+    final _uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(_uid)
+        .collection("eyeExam")
+        .add({
+      "name": _userData.name,
+      "notes": _userData.notes,
+      "score": _userData.score
+    });
   }
 }

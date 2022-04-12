@@ -4,9 +4,8 @@ import 'package:eye_examination/bottom_bar.dart';
 import 'package:eye_examination/color_blind_instruction.dart';
 import 'package:eye_examination/color_blind_result.dart';
 import 'package:eye_examination/color_blind_test.dart';
+import 'package:eye_examination/dry_blink_test.dart';
 import 'package:eye_examination/dummy.dart';
-import 'package:eye_examination/dummy2.dart';
-import 'package:eye_examination/dummy3.dart';
 import 'package:eye_examination/eye_dry.dart';
 import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
           routes: {
             AddCaseScreen.routeName1: (context) => EyeExam(),
             AddCaseScreen.routeName2: (context) => ColorBlindInstruction(),
-            AddCaseScreen.routeName3: (context) => EyeDry(),
+            AddCaseScreen.routeName3: (context) => DryBlinkTest(),
             ColorBlindForm.routeName: (context) => ColorBlindTest(),
             // ColorBlindInstruction.routeName: (context) => ColorBlindForm(),
             ColorBlindResult.routeName: (context) => BottomBarSelect(),

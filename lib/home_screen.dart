@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eye_examination/detail.dart';
+import 'package:eye_examination/instruction.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import './models/transaction.dart';
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
           backgroundColor: Colors.blue.shade100,
         ),
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: user != null ? StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection("users")
             .doc(user!.uid)
@@ -41,7 +42,7 @@ class HomeScreen extends StatelessWidget {
           if (snapshots.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
-          final _testDocs = snapshots.data!.docs;
+          final _testDocs = snapshots.data;
           return ListView.builder(
               itemCount: snapshots.data!.docs.length,
               itemBuilder: (context, index) {
@@ -102,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                                     child: FittedBox(
                                         fit: BoxFit.cover,
                                         child: Text(
-                                            "Name : ${_testDocs[index]['name']}",
+                                            "Name : ${_testDocs!.docs[index]['name']}",
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500))),
@@ -110,7 +111,8 @@ class HomeScreen extends StatelessWidget {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text("Disease : ${_testDocs[index]['notes']}",
+                                  Text(
+                                      "Disease : ${_testDocs.docs[index]['notes']}",
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500)),
@@ -209,7 +211,7 @@ class HomeScreen extends StatelessWidget {
         //       );
         //     },
         //   ),
-      ),
+      ) : Instruction()
     );
   }
 }

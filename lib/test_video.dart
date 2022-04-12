@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class TestVideo extends StatefulWidget {
   @override
@@ -7,21 +8,15 @@ class TestVideo extends StatefulWidget {
 }
 
 class _TestVideoState extends State<TestVideo> {
-  _addUser(CollectionReference users) {
-    return users.add({"fullname": "Alice", "company": "KMITL"}).then(
-        (value) => print(value.get()));
-  }
-
+  String url = "https://www.facebook.com/";
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection("video");
-
     return Scaffold(
       body: const Center(
         child: Text("test"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addUser(users),
+        onPressed: () {},
         child: const Icon(Icons.add),
       ),
     );
