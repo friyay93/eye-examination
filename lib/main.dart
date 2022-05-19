@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (ctx) => GoogleSignInProvider(),
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: "Eye Dectection",
           theme: ThemeData(
               scaffoldBackgroundColor: Colors.white,
