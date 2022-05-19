@@ -1,6 +1,5 @@
 import 'package:eye_examination/bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 // _question[_questionIndex]['level']
 // ${_question[_questionIndex]['level']}

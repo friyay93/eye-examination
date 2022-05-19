@@ -21,21 +21,10 @@ class GoogleSignInProvider extends ChangeNotifier {
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-      // final String? uid = FirebaseAuth.instance.currentUser?.uid;
-      final _userLogin = FirebaseAuth.instance.currentUser;
-      // FirebaseFirestore.instance
-      //     .collection("userCount")
-      //     .doc("n0h8gjw0qzj68eGB4zrP")
-      //     .collection("Count")
-      //     .doc(uid)
-      //     .set({"count": 0});
-
-      // await FirebaseFirestore.instance
-      //     .collection("users")
-      //     .doc(_userLogin!.uid)
-      //     .set({});
     } on PlatformException catch (error) {
-      print(error);
+      print("The user is not signed in yet. Asking to sign in.");
+
+      print("platform Exception : $error");
     }
   }
 

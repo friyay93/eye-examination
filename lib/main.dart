@@ -5,8 +5,7 @@ import 'package:eye_examination/color_blind_instruction.dart';
 import 'package:eye_examination/color_blind_result.dart';
 import 'package:eye_examination/color_blind_test.dart';
 import 'package:eye_examination/dry_blink_test.dart';
-import 'package:eye_examination/dummy.dart';
-import 'package:eye_examination/eye_dry.dart';
+import 'package:eye_examination/dry_eye.dart';
 import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
 import 'package:eye_examination/manage.dart';
@@ -49,22 +48,17 @@ class MyApp extends StatelessWidget {
           routes: {
             AddCaseScreen.routeName1: (context) => EyeExam(),
             AddCaseScreen.routeName2: (context) => ColorBlindInstruction(),
-            AddCaseScreen.routeName3: (context) => DryBlinkTest(),
+            AddCaseScreen.routeName3: (context) => DryEye(),
             ColorBlindForm.routeName: (context) => ColorBlindTest(),
             // ColorBlindInstruction.routeName: (context) => ColorBlindForm(),
             ColorBlindResult.routeName: (context) => BottomBarSelect(),
 
             // more route
             About.routeName: (context) => HomePageManage(),
-
             // eye exam
             EyeExam.routeSymbolW: (context) => EyeExamTest(),
-
+            DryBlinkTest.routeName: (context) => DryEye(),
             // eye dry
-            EyeDry.routeName: (context) => Dummy1(),
-            // test dummy
-            Dummy1.routeName: (context) => EyeDry(),
-            // Dummy2.routeName: (context) => EyeDry(),
             // Dummy3.routeName: (context) => EyeDry()
           },
         ),

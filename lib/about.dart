@@ -1,7 +1,7 @@
 import 'package:eye_examination/bottom_bar.dart';
 import 'package:eye_examination/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
-import 'package:eye_examination/test_video.dart';
+import 'package:eye_examination/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   bool isTouch = false;
   List information = [
-    {"text": "Help", "icon": Icons.help, "navigate": TestVideo()},
+    {"text": "Help", "icon": Icons.help, "navigate": ""},
     {"text": "FeedBack", "icon": Icons.mail, "navigate": BottomBarSelect()},
     {
       "text": "Term of Use",
@@ -72,22 +72,12 @@ class _AboutState extends State<About> {
                       onTap: information[index]['text'] == "LogOut"
                           ? () {
                               if (FirebaseAuth.instance.currentUser == null) {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             HomePageManage()));
                                 Navigator.pushNamed(context, About.routeName);
                               } else {
                                 final provider =
                                     Provider.of<GoogleSignInProvider>(context,
                                         listen: false);
                                 provider.logout();
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             HomePageManage()));
                                 Navigator.pushNamed(context, About.routeName);
                               }
                             }

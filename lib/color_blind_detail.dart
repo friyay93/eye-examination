@@ -9,36 +9,40 @@ class ColorBlindDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-        // elevation: 2,
-        child: Stack(children: [
-      Positioned(
-        child: Container(
-          width: 300,
-          height: 200,
-          decoration: BoxDecoration(border: Border.all(width: 2)),
-          child: Column(
-            children: [
-              Center(
-                child:
-                    Text("Name: ${transactions[_indexDetail].name.toString()}"),
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      // elevation: 2,
+      child: Stack(
+        children: [
+          Positioned(
+            child: Container(
+              width: 300,
+              height: 200,
+              decoration: BoxDecoration(border: Border.all(width: 2)),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                        "Name: ${transactions[_indexDetail].name.toString()}"),
+                  ),
+                  Center(
+                    child: Text(
+                        "Disease: ${transactions[_indexDetail].notes.toString()}"),
+                  ),
+                  Center(
+                    child:
+                        Text("${transactions[_indexDetail].score.toString()}"),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("get back"))
+                ],
               ),
-              Center(
-                child: Text(
-                    "Disease: ${transactions[_indexDetail].notes.toString()}"),
-              ),
-              Center(
-                child: Text("${transactions[_indexDetail].score.toString()}"),
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("get back"))
-            ],
+            ),
           ),
-        ),
+        ],
       ),
-    ]));
+    );
   }
 }

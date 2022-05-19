@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class AddCaseScreen extends StatelessWidget {
@@ -5,108 +7,172 @@ class AddCaseScreen extends StatelessWidget {
   static const routeName2 = "/colorBlindForm";
   static const routeName3 = "/eyeDry";
 
-  Widget _addCaseWidget(BuildContext ctx) {
-    Size size = MediaQuery.of(ctx).size;
-    return Stack(
-      children: [
-        Positioned(
-          left: size.width * 0.1,
-          top: size.height * 0.3 - (size.height * 0.08),
-          child: InkWell(
-            onTap: () => Navigator.pushNamed(ctx, AddCaseScreen.routeName3),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(13),
-                  border: Border.all(width: 2),
-                  color: Colors.blue),
-              width: size.width * 0.8,
-              height: 100,
-              child: const Center(
-                child: Text(
-                  "Eye Dry ",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned(
+              top: size.height * 0.05,
+              left: size.width * 0.06,
+              child: const Text(
+                "Csheep",
+                style: TextStyle(
+                    color: Color.fromRGBO(107, 214, 238, 1),
+                    fontSize: 23,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
+            Positioned(
+              top: size.height * 0.099,
+              left: size.width * 0.08,
+              child: const Text(
+                "Hi DummyName !",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13.2,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            Positioned(
+              height: size.height * 0.17,
+              right: size.width * 0.06,
+              child: SizedBox(
+                width: 50,
+                child: Image.asset("assets/images/sheep_splash.png"),
+              ),
+            ),
+            Positioned(
+              top: size.height * 0.15,
+              left: size.width * 0.06,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  "assets/images/under_bar.jpg",
+                  fit: BoxFit.cover,
+                  width: 320,
+                  height: 136,
+                ),
+              ),
+            ),
+            Positioned(
+              top: size.height * 0.4,
+              left: size.width * 0.09,
+              child: const Text(
+                "Choose Your test .. ",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Positioned(
+              top: size.height * 0.46,
+              width: 320,
+              right: 0,
+              child: InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, AddCaseScreen.routeName3),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                        width: 2,
+                        color: const Color.fromRGBO(238, 247, 249, 1)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Eye Dry",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 30,
+                        child: Image.asset("assets/images/eyedry_icon.png"),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              //  color: Colors.red,
             ),
-          ),
-        ),
-        Positioned(
-          left: size.width * 0.1,
-          top: size.height * 0.5 - (size.height * 0.08),
-          child: InkWell(
-            onTap: () => Navigator.pushNamed(ctx, AddCaseScreen.routeName1),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(13),
-                  border: Border.all(width: 2),
-                  color: Colors.blue.shade50),
-              width: size.width * 0.37,
-              height: 100,
-              child: const Center(
-                  child: Text(
-                "Eye Exam",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Positioned(
+              top: size.height * 0.61,
+              width: 320,
+              right: 0,
+              child: InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, AddCaseScreen.routeName1),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                        width: 2,
+                        color: const Color.fromRGBO(238, 247, 249, 1)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Eye Exam",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 30,
+                        child: Image.asset("assets/images/eye-exam.png"),
+                      ),
+                    ],
+                  ),
                 ),
-              )),
-              //  color: Colors.red,
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          left: (size.width * 0.2 * 2) +
-              size.width * 0.1 * 1.5 -
-              size.width * 0.02,
-          top: size.height * 0.5 - (size.height * 0.08),
-          child: InkWell(
-            onTap: () => Navigator.pushNamed(ctx, AddCaseScreen.routeName2),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(13),
-                  border: Border.all(width: 2),
-                  color: Colors.blue.shade50),
-              width: size.width * 0.37,
-              height: 100,
-              child: const Center(
-                  child: Text(
-                "Color Blind",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Positioned(
+              top: size.height * 0.76,
+              width: 320,
+              right: 0,
+              child: InkWell(
+                onTap: () =>
+                    Navigator.pushNamed(context, AddCaseScreen.routeName2),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 17),
+                  width: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                        width: 2,
+                        color: const Color.fromRGBO(238, 247, 249, 1)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Color Blind",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 30,
+                        child: Image.asset("assets/images/color-blind.png"),
+                      ),
+                    ],
+                  ),
                 ),
-              )),
-              //  color: Colors.red,
+              ),
             ),
-          ),
+          ],
         ),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: PreferredSize(
-          preferredSize:
-              Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
-          child: AppBar(
-            centerTitle: true,
-            elevation: 0,
-            backgroundColor: Colors.blue.shade100,
-            automaticallyImplyLeading: false,
-            title: const Text(
-              "Select Case",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ),
-        body: _addCaseWidget(context));
-    //
+      ),
+    ); //
   }
 }

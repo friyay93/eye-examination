@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1095115344746",
+    "firebase_url": "https://eye-examination-database-default-rtdb.firebaseio.com",
     "project_id": "eye-examination-database",
     "storage_bucket": "eye-examination-database.appspot.com"
   },
@@ -14,8 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "1095115344746-ki9r4bgb3v1sl1nthepjkppriocjd0mm.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "1095115344746-7ncib39qjv02s82hoeods176qi2barce.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eye_examination",
+            "certificate_hash": "d83138b4cf531413e4e9c32de2059079fff514ff"
+          }
         }
       ],
       "api_key": [
@@ -25,12 +30,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1095115344746-ki9r4bgb3v1sl1nthepjkppriocjd0mm.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

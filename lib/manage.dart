@@ -21,7 +21,7 @@ class HomePageManage extends StatelessWidget {
         } else if (snapshot.hasData) {
           return BottomBarSelect();
         }
-        return SignInScreen();
+        return const SignInScreen();
       },
     );
   }

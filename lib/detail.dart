@@ -1,32 +1,35 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eye_examination/color_blind_detail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import './models/transaction.dart';
 
 class Detail extends StatelessWidget {
-  final detailTransaction;
-  final int _indexDetail;
-  Detail(this.detailTransaction, this._indexDetail);
+  final detail;
+  final int _index;
+  final _user = FirebaseAuth.instance.currentUser;
+  Detail(this.detail, this._index);
+
+  _userData() {
+    if (detail!.docs[_index]["notes"] == "Dry Eye") {
+      final score = detail!.docs[_index]["score"].toString();
+      final setScore = score.split(RegExp(r"[A-z]"));
+      final blinkScore = setScore[13];
+      final durationScore = setScore[26];
+      final formScore = setScore[35];
+      return [detail!.docs[_index], blinkScore, durationScore, formScore];
+    }
+    return detail!.docs[_index];
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(detailTransaction);
-    print(detailTransaction[_indexDetail]);
-    print(detailTransaction[_indexDetail]['name']);
     // return colorCase == "Color Blind" ? DetailColorBlind() : Text("Hello");
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("details"),
+        title: const Text("details"),
       ),
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(detailTransaction[_indexDetail]['name']),
-              Text(detailTransaction[_indexDetail]['notes']),
-              Text(detailTransaction[_indexDetail]['score'])
-            ],
-          ),
+        child: Stack(
+          children: [],
         ),
       ),
     );

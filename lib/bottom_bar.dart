@@ -10,7 +10,7 @@ class BottomBarSelect extends StatefulWidget {
 
 class _BottomBarSelectState extends State<BottomBarSelect> {
   int _selectedIndex = 0;
-  final List<Widget> _widgetSelect = [HomeScreen(), AddCaseScreen(), About()];
+  final List<Widget> _widgetSelect = [AddCaseScreen(), HomeScreen(), About()];
 
   void _onItemTap(int index) {
     setState(() {
@@ -26,25 +26,28 @@ class _BottomBarSelectState extends State<BottomBarSelect> {
         child: _widgetSelect.elementAt(_selectedIndex),
       ),
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10,
-        iconSize: 20,
-        unselectedItemColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'HOME',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'ADD',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'MORE'),
-        ],
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTap,
-        currentIndex: _selectedIndex,
-        backgroundColor: Colors.white,
+      bottomNavigationBar: SizedBox(
+        height: 50,
+        child: BottomNavigationBar(
+          elevation: 10,
+          iconSize: 20,
+          unselectedItemColor: Colors.grey,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'HOME',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.history),
+              label: 'History',
+            ),
+            BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'MORE'),
+          ],
+          selectedItemColor: Colors.blue,
+          onTap: _onItemTap,
+          currentIndex: _selectedIndex,
+          backgroundColor: Colors.white,
+        ),
       ),
     );
   }

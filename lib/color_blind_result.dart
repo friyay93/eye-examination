@@ -8,24 +8,23 @@ final List listAnswer = [74, 6, 16, 2, 29, 7, 45, 5, 97, 8, 42, 3];
 
 class ColorBlindResult extends StatelessWidget {
   final int _totalScore;
-  final String _nameUser;
   final List _ansList;
-  ColorBlindResult(this._totalScore, this._nameUser, this._ansList);
+  ColorBlindResult(this._totalScore, this._ansList);
   static const routeName = "/bottomBarSelect";
 
   // add transactions
-  void _addColorblindTx(String userName, String note, String totalScore) {
+  void _addGuest(String userName, String note, String totalScore) {
     final _newDetailColorBlind =
         UserTransaction(name: userName, notes: note, score: totalScore);
     transactions.add(_newDetailColorBlind);
   }
 
-  Future<void> _addRecord(UserTransaction _userData) async {
-    final _uid = FirebaseAuth.instance.currentUser!.uid;
+  Future<void> _addUser(UserTransaction _userData) async {
+    final _user = FirebaseAuth.instance.currentUser;
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(_uid)
-        .collection("eyeExam")
+        .doc(_user!.uid)
+        .collection("test")
         .add({
       "name": _userData.name,
       "notes": _userData.notes,
@@ -35,6 +34,8 @@ class ColorBlindResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final User? _user = FirebaseAuth.instance.currentUser;
+
     return Center(
       child: Column(
         children: [
@@ -147,22 +148,16 @@ class ColorBlindResult extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 onPressed: () {
-                  final _newDetailColorBlind = UserTransaction(
-                      name: _nameUser,
-                      notes: "Color Blind",
-                      score: _totalScore.toString());
-                  _addRecord(_newDetailColorBlind);
-                  // _addColorblindTx(
-                  //   _nameUser,
-                  //   "Color Blind",
-                  //   _totalScore.toString(),
-                  // );
-                  //  print(answersList);
+                  if (_user?.uid != null) {
+                    final _newDetailColorBlind = UserTransaction(
+                        name: "Guest",
+                        notes: "Color Blind",
+                        score: _totalScore.toString());
+                    _addUser(_newDetailColorBlind);
+                  } else {
+                    _addGuest("Guest", "Color Blind", _totalScore.toString());
+                  }
                   _ansList.clear();
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => BottomBarSelect()),
-                  // );
                   Navigator.pushNamed(context, ColorBlindResult.routeName);
                 },
                 color: Colors.blue.shade200,

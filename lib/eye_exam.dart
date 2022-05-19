@@ -1,4 +1,3 @@
-import 'package:eye_examination/dummy.dart';
 import 'package:flutter/material.dart';
 
 class EyeExam extends StatelessWidget {
