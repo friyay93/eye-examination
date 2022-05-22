@@ -1,4 +1,4 @@
-import 'package:eye_examination/color_blind_result.dart';
+import 'package:eye_examination/color%20blind/color_blind_result.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -165,7 +165,7 @@ class _ColorBlindTestState extends State<ColorBlindTest> {
                           }
                         },
                         child: const Icon(
-                          Icons.navigate_next,
+                          Icons.arrow_forward_ios,
                           color: Colors.blue,
                         ),
                         backgroundColor: Colors.white,

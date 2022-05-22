@@ -1,7 +1,7 @@
 import 'dart:math';
-import 'package:eye_examination/home_screen.dart';
+import 'package:eye_examination/history.dart';
 import 'package:eye_examination/models/transaction.dart';
-import 'package:eye_examination/symbol_e_result.dart';
+import 'package:eye_examination/eye%20exam/symbol_e_result.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -87,10 +87,12 @@ class _EyeExamTestState extends State<EyeExamTest> {
           automaticallyImplyLeading: false,
           iconTheme: const IconThemeData(color: Colors.black),
           elevation: 0,
-          backgroundColor: Colors.blue.shade100,
+          backgroundColor: Colors.white,
+          centerTitle: true,
           title: Text(
-            "Symbol $_type Exam",
-            style: const TextStyle(color: Colors.black),
+            "Color $_type Test",
+            style: TextStyle(color: Colors.black),
+            textAlign: TextAlign.center,
           ),
         ),
       ),
@@ -116,49 +118,72 @@ class _EyeExamTestState extends State<EyeExamTest> {
           score: "${_question[_questionIndex]['level']}",
         );
         _userModel.addRecord(_userExamTransactions);
-      } else {
+        print("Hello");
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return SymbolEResult(_question, _questionIndex);
+            },
+          ),
+        );
+      } else if (FirebaseAuth.instance.currentUser == null) {
         final _userExamTransactions = UserTransaction(
           name: "Guest",
           notes: "Symbol E test",
           score: "${_question[_questionIndex]['level']}",
         );
         transactions.add(_userExamTransactions);
-      }
+        print("Hello");
 
-      return Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return SymbolEResult(_question, _questionIndex);
-          },
-        ),
-      );
+        return Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return SymbolEResult(_question, _questionIndex);
+            },
+          ),
+        );
+      }
     } else if ((_question[_questionIndex]['rotate'] as List<int>)[_itemIndex] ==
         _answer[index]['rotate']) {
       if (_itemIndex + 1 ==
           (_question[_questionIndex]['rotate'] as List<int>).length) {
         if (_count + 1 == _question.length) {
-          final _userExamTransactions = UserTransaction(
-              name: "John",
-              notes: "eyeexam",
-              score: "${_question[_questionIndex]['level']}");
-          transactions.add(_userExamTransactions);
           if (FirebaseAuth.instance.currentUser != null) {
             final _username = FirebaseAuth.instance.currentUser!.displayName;
             final _userExamTransactions = UserTransaction(
-                name: _username,
-                notes: "Symbol E",
-                score: "${_question[_questionIndex]['level']}");
-            if (FirebaseAuth.instance.currentUser != null) {
-              _userModel.addRecord(_userExamTransactions);
-            } else {
-              transactions.add(_userExamTransactions);
-            }
+              name: _username,
+              notes: "Symbol E test",
+              score: "${_question[_questionIndex]['level']}",
+            );
+            _userModel.addRecord(_userExamTransactions);
+            print("Hello");
+            return Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return SymbolEResult(_question, _questionIndex);
+                },
+              ),
+            );
+          } else if (FirebaseAuth.instance.currentUser == null) {
+            print("Hello");
+            final _userExamTransactions = UserTransaction(
+              name: "Guest",
+              notes: "Symbol E test",
+              score: "${_question[_questionIndex]['level']}",
+            );
+            transactions.add(_userExamTransactions);
+            return Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return SymbolEResult(_question, _questionIndex);
+                },
+              ),
+            );
           }
-          return Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return SymbolEResult(_question, _questionIndex);
-          }));
         } else {
           setState(() {
             _questionIndex++;
@@ -221,7 +246,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
             notes: "Symbol C test",
             score: "${_question[_questionIndex]['level']}");
         _userModel.addRecord(_userExamTransactions);
-      } else if (FirebaseAuth.instance.currentUser == null) {
+      } else {
         final _userExamTransactions = UserTransaction(
             name: "Guest",
             notes: "Symbol C test",
@@ -245,21 +270,25 @@ class _EyeExamTestState extends State<EyeExamTest> {
             final _username = FirebaseAuth.instance.currentUser!.displayName;
             final _userExamTransactions = UserTransaction(
                 name: _username,
-                notes: "Symbol E",
+                notes: "Symbol C test",
                 score: "${_question[_questionIndex]['level']}");
             _userModel.addRecord(_userExamTransactions);
-          } else if (FirebaseAuth.instance.currentUser == null) {
+          } else {
             final _userExamTransactions = UserTransaction(
-                name: "John",
-                notes: "eye exam",
+                name: "Guest",
+                notes: "Symbol C test",
                 score: "${_question[_questionIndex]['level']}");
             transactions.add(_userExamTransactions);
           }
 
-          return Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return SymbolEResult(_question, _questionIndex);
-          }));
+          return Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return SymbolEResult(_question, _questionIndex);
+              },
+            ),
+          );
         } else {
           setState(() {
             _questionIndex++;
@@ -275,10 +304,7 @@ class _EyeExamTestState extends State<EyeExamTest> {
         _itemIndex++;
         _answer.shuffle();
       });
-    } else
-
-    // wrong check
-    {
+    } else {
       if ((_question[_questionIndex]['rotate'] as List<int>)[_itemIndex] !=
           _answer[index]['rotate']) {
         if (_wrong == _question[_questionIndex]['wrongCount']) {
@@ -312,6 +338,109 @@ class _EyeExamTestState extends State<EyeExamTest> {
     }
   }
 
+  _checkLetter(index, List _numberChoiceList) {
+    if (_wrongFrequency == 2) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        final _username = FirebaseAuth.instance.currentUser!.displayName;
+        final _userExamTransactions = UserTransaction(
+            name: _username,
+            notes: "Letters test",
+            score: "${_question[_questionIndex]['level']}");
+        print("add");
+        _userModel.addRecord(_userExamTransactions);
+        print("add complete");
+      } else {
+        final _userExamTransactions = UserTransaction(
+            name: "Guest",
+            notes: "Letters test",
+            score: "${_question[_questionIndex]['level']}");
+        transactions.add(_userExamTransactions);
+      }
+      return Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) {
+        return SymbolEResult(_question, _questionIndex);
+      }));
+    } else if (_words[_testLettersList[0]] ==
+        _words[_numberChoiceList[index]]) {
+      if (_itemIndex + 1 ==
+          (_question[_questionIndex]['rotate'] as List<int>).length) {
+        if (_count + 1 == _question.length) {
+          if (FirebaseAuth.instance.currentUser != null) {
+            final _username = FirebaseAuth.instance.currentUser!.displayName;
+            final _userExamTransactions = UserTransaction(
+                name: _username,
+                notes: "Letters Test",
+                score: "${_question[_questionIndex]['level']}");
+            print("add");
+            _userModel.addRecord(_userExamTransactions);
+            print("add complete");
+          } else {
+            final _userExamTransactions = UserTransaction(
+                name: "Guest",
+                notes: "Letters Test",
+                score: "${_question[_questionIndex]['level']}");
+            transactions.add(_userExamTransactions);
+          }
+
+          return Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return SymbolEResult(_question, _questionIndex);
+          }));
+        } else {
+          setState(() {
+            _questionIndex++;
+            _score = 0;
+            _itemIndex = -1;
+            _count++;
+            print("questionIndex $_questionIndex");
+            print(_count);
+
+            _testLettersList.clear();
+            //  print("questionIndex after $_questionIndex");
+          });
+        }
+      }
+      setState(() {
+        _score++;
+        _itemIndex++;
+        // _shuffleTest();
+        _testLettersList.clear();
+      });
+    } else
+//  wrong check
+    {
+      if (_words[_testLettersList[0]] != _words[_numberChoiceList[index]]) {
+        if (_wrong == _question[_questionIndex]['wrongCount']) {
+          _wrongFrequency++;
+          if (_questionIndex > 0) {
+            setState(() {
+              _questionIndex--;
+              _itemIndex = 0;
+              //  _testLettersList.clear();
+            });
+          }
+          _wrong = 0;
+        } else if (_wrong <
+            double.parse(_question[_questionIndex]['wrongCount'].toString())
+                .toInt()) {
+          if (_itemIndex == 0) {
+            _itemIndex =
+                (_question[_questionIndex]['rotate'] as List<int>).length - 1;
+            setState(() {
+              _testLettersList.clear();
+            });
+          } else if (_itemIndex > 0) {
+            _itemIndex--;
+            setState(() {
+              _testLettersList.clear();
+            });
+          }
+          _wrong++;
+        }
+      }
+    }
+  }
+
   Widget _symbolEWidget(BuildContext ctx) {
     Size size = MediaQuery.of(ctx).size;
     return _wrongFrequency < 2 && _count + 1 < _question.length
@@ -332,10 +461,11 @@ class _EyeExamTestState extends State<EyeExamTest> {
                   children: [
                     RotatedBox(
                       quarterTurns: // _question[_indexQuestion]["rotate"] as int,
-                          double.parse((_question[_questionIndex]['rotate']
-                                      as List<int>)[_itemIndex]
-                                  .toString())
-                              .toInt(),
+                          double.parse(
+                        (_question[_questionIndex]['rotate']
+                                as List<int>)[_itemIndex]
+                            .toString(),
+                      ).toInt(),
                       child: Image.asset(
                         "assets/images/symbol_e.png",
                         width: double.parse(
@@ -480,107 +610,6 @@ class _EyeExamTestState extends State<EyeExamTest> {
             ],
           )
         : SymbolEResult(_question, _questionIndex);
-  }
-
-  _checkLetter(index, List _numberChoiceList) {
-    //print("questionIndex before $_questionIndex");
-    //  print(_count);
-    if (_wrongFrequency == 2) {
-      if (FirebaseAuth.instance.currentUser != null) {
-        final _username = FirebaseAuth.instance.currentUser!.displayName;
-        final _userExamTransactions = UserTransaction(
-            name: _username,
-            notes: "Letters test",
-            score: "${_question[_questionIndex]['level']}");
-        print("add");
-        _userModel.addRecord(_userExamTransactions);
-        print("add complete");
-      } else {
-        final _userExamTransactions = UserTransaction(
-            name: "Guest",
-            notes: "Letters test",
-            score: "${_question[_questionIndex]['level']}");
-        transactions.add(_userExamTransactions);
-      }
-      return Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) {
-        return SymbolEResult(_question, _questionIndex);
-      }));
-    } else if (_words[_testLettersList[0]] ==
-        _words[_numberChoiceList[index]]) {
-      if (_itemIndex + 1 ==
-          (_question[_questionIndex]['rotate'] as List<int>).length) {
-        if (_count + 1 == _question.length) {
-          final _username = FirebaseAuth.instance.currentUser!.displayName;
-          final _userExamTransactions = UserTransaction(
-              name: _username,
-              notes: "Symbol E",
-              score: "${_question[_questionIndex]['level']}");
-          if (FirebaseAuth.instance.currentUser != null) {
-            print("add");
-            _userModel.addRecord(_userExamTransactions);
-            print("add complete");
-          } else {
-            transactions.add(_userExamTransactions);
-          }
-
-          return Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (BuildContext context) {
-            return SymbolEResult(_question, _questionIndex);
-          }));
-        } else {
-          setState(() {
-            _questionIndex++;
-            _score = 0;
-            _itemIndex = -1;
-            _count++;
-            print("questionIndex $_questionIndex");
-            print(_count);
-
-            _testLettersList.clear();
-            //  print("questionIndex after $_questionIndex");
-          });
-        }
-      }
-      setState(() {
-        _score++;
-        _itemIndex++;
-        // _shuffleTest();
-        _testLettersList.clear();
-      });
-    } else
-//  wrong check
-    {
-      if (_words[_testLettersList[0]] != _words[_numberChoiceList[index]]) {
-        if (_wrong == _question[_questionIndex]['wrongCount']) {
-          _wrongFrequency++;
-          if (_questionIndex > 0) {
-            setState(() {
-              _questionIndex--;
-              _itemIndex = 0;
-              //  _testLettersList.clear();
-            });
-          }
-          _wrong = 0;
-        } else if (_wrong <
-            double.parse(_question[_questionIndex]['wrongCount'].toString())
-                .toInt()) {
-          if (_itemIndex == 0) {
-            _itemIndex =
-                (_question[_questionIndex]['rotate'] as List<int>).length - 1;
-            setState(() {
-              _testLettersList.clear();
-            });
-          } else if (_itemIndex > 0) {
-            _itemIndex--;
-            setState(() {
-              _testLettersList.clear();
-            });
-          }
-          _wrong++;
-        }
-      }
-    }
   }
 
   _shuffleTest() {

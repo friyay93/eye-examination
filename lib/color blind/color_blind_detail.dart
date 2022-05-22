@@ -1,5 +1,5 @@
 import 'package:eye_examination/bottom_bar.dart';
-import 'package:eye_examination/home_screen.dart';
+import 'package:eye_examination/history.dart';
 import 'package:flutter/material.dart';
 
 class ColorBlindDetail extends StatelessWidget {

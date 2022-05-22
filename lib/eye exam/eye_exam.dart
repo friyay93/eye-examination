@@ -27,7 +27,7 @@ class EyeExam extends StatelessWidget {
                 const SizedBox(
                   height: 4,
                 ),
-                const Text('Symbol "W"',
+                const Text('Symbol "E"',
                     style:
                         TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               ],
@@ -103,10 +103,12 @@ class EyeExam extends StatelessWidget {
           child: AppBar(
             iconTheme: const IconThemeData(color: Colors.black),
             elevation: 0,
-            backgroundColor: Colors.blue.shade100,
+            backgroundColor: Colors.white,
+            centerTitle: true,
             title: const Text(
               "Choose Test Type",
               style: TextStyle(color: Colors.black),
+              textAlign: TextAlign.justify,
             ),
           ),
         ),

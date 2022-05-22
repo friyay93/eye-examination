@@ -1,36 +1,44 @@
 {
   "project_info": {
-    "project_number": "1095115344746",
-    "firebase_url": "https://eye-examination-database-default-rtdb.firebaseio.com",
-    "project_id": "eye-examination-database",
-    "storage_bucket": "eye-examination-database.appspot.com"
+    "project_number": "6197870991",
+    "project_id": "csheep-ce22c",
+    "storage_bucket": "csheep-ce22c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1095115344746:android:e3ea03042f2b1e26a0b313",
+        "mobilesdk_app_id": "1:6197870991:android:9239faa74463d3fa6fcbfa",
         "android_client_info": {
           "package_name": "com.example.eye_examination"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1095115344746-7ncib39qjv02s82hoeods176qi2barce.apps.googleusercontent.com",
+          "client_id": "6197870991-n2ddta0m2f1pdbqb38bv5442d490jl60.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.eye_examination",
             "certificate_hash": "d83138b4cf531413e4e9c32de2059079fff514ff"
           }
+        },
+        {
+          "client_id": "6197870991-e23fj6q1r3se4cmphh5hll4jjk3csdhk.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCXqNGQThD0vKxdEScXDSRYRUwR6FI2LOY"
+          "current_key": "AIzaSyBqjL4_lKhUkE4S_i7zaul4ssasAbj4h88"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6197870991-e23fj6q1r3se4cmphh5hll4jjk3csdhk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

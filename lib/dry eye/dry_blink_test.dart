@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:eye_examination/dry%20eye/dry_eye2.dart';
+import 'package:eye_examination/dry%20eye/dry_eye_question.dart';
 import 'package:eye_examination/main.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -8,11 +10,13 @@ import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:math';
-import 'dry_eye.dart';
+import '../mock/dry_eye.dart';
 
-final List _generateList = [];
+List _generateList = [];
 
 class DryBlinkTest extends StatefulWidget {
+  int _index;
+  DryBlinkTest(this._index);
   static const routeName = '/return';
   @override
   State<DryBlinkTest> createState() => _DryBlinkTestState();
@@ -22,8 +26,6 @@ class _DryBlinkTestState extends State<DryBlinkTest>
     with WidgetsBindingObserver {
   CameraController? controller;
   bool _isCameraInitialized = false;
-  final resolutionPresets = ResolutionPreset.values;
-  ResolutionPreset currentResolutionPreset = ResolutionPreset.medium;
   int timeCount = 0;
   bool _isRecordingInProgress = false;
   final storage = FirebaseStorage.instance;
@@ -123,31 +125,105 @@ class _DryBlinkTestState extends State<DryBlinkTest>
     }
   }
 
-  _uploadBlinkAndTime(File filePath) {
+  _uploadBlinkAndTime(File filePath) async {
     // upload Blink
-    if (colorList[0] == Colors.white) {
-      print("First time");
+    if (widget._index == 0) {
       _uploadForBlink(filePath);
-      colorList[0] = Colors.grey;
-      Navigator.popAndPushNamed(
+      print("index ${widget._index}");
+
+      widget._index += 1;
+      Navigator.pushReplacement(
         context,
-        DryBlinkTest.routeName,
-        arguments: {
-          "_pageList": "1",
-        },
+        MaterialPageRoute(
+          builder: (context) {
+            return DryEye2(widget._index);
+          },
+        ),
       );
     }
     // upload Time
-    else if (colorList[0] == Colors.grey) {
+    else if (widget._index == 1) {
       print("second time");
       _uploadForTime(filePath);
-      colorList[1] = Colors.grey;
-      Navigator.popAndPushNamed(context, DryBlinkTest.routeName, arguments: {
-        "_pageList": "2",
-        "keyBlink": _generateList[0],
-        "keyTime": _generateList[1],
-      });
+      _generateList.clear();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            print("index ${widget._index}");
+            return DryEyeQuestion();
+          },
+        ),
+      );
     }
+  }
+
+  @override
+  void initState() {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    onNewCameraSelected(cameras[1]);
+    super.initState();
+    _generateList.clear();
+  }
+
+  // release memory when not active
+  final Random _rnd = Random();
+  final _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+  Future _uploadForBlink(File filePath) async {
+    const url = "https://my-app-vkvof.ondigitalocean.app/eyeblink-async";
+    final String _generate = getRandomString(12);
+    final destination = "blink_$_generate"; // path ที่จะใส่ลง
+    final ref = FirebaseStorage.instance.ref(destination);
+    UploadTask uploadTask = ref.putFile(filePath);
+    print("upload blink  ... ");
+    final uploadUrl = await (await uploadTask).ref.getDownloadURL();
+    print("real URL blink $uploadUrl");
+    final parsedData = Uri.encodeComponent(uploadUrl);
+    print("encode URL blink :$parsedData");
+    _generateList.add(_generate);
+    print("generalList first $_generateList"); // ชื่อไฟลื
+
+    final response = http.post(
+      Uri.parse(url + "?url=" + parsedData),
+      headers: <String, String>{'Content-Type': 'application/json'}, // metra
+      body: jsonEncode({"key": _generate}),
+    );
+  }
+
+  // post api
+  Future _uploadForTime(
+    File filePath,
+  ) async {
+    const url = "https://my-app-vkvof.ondigitalocean.app/blinkduration-async";
+    final String _generate = getRandomString(12);
+    final destination = "Time$_generate"; // path ที่จะใส่ลง
+    final ref = FirebaseStorage.instance.ref(destination);
+    UploadTask uploadTask = ref.putFile(filePath);
+    print("upload blink  ... ");
+    final uploadUrl = await (await uploadTask).ref.getDownloadURL();
+    print("real URL blink $uploadUrl");
+    final parsedData = Uri.encodeComponent(uploadUrl);
+    print("encode URL blink :$parsedData");
+    _generateList.add(_generate);
+    print("generalList second $_generateList"); // ชื่อไฟลื
+
+    final response = http.post(
+      Uri.parse(url + "?url=" + parsedData),
+      headers: <String, String>{'Content-Type': 'application/json'}, // metra
+      body: jsonEncode({"key": _generate}),
+    );
+
+    // if (response.statusCode == 200) {
+    //   print("post json ===> ${jsonEncode(response.body)}");
+    //   print("Success post blink${response.statusCode}");
+    // } else {
+    //   print("not send post ${response.body}");
+    // }
   }
 
   Future _settimeAndRecord() async {
@@ -168,75 +244,6 @@ class _DryBlinkTestState extends State<DryBlinkTest>
         }
       },
     );
-  }
-
-  @override
-  void initState() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    onNewCameraSelected(cameras[1]);
-    super.initState();
-  }
-
-  // release memory when not active
-  final Random _rnd = Random();
-  final _chars =
-      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-
-  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-
-  Future _uploadForBlink(File filePath) async {
-    const url = "https://my-app-vkvof.ondigitalocean.app/eyeblink";
-    final String _generate = getRandomString(12);
-    _generateList.add(_generate);
-    print("generalList $_generateList"); // ชื่อไฟลื
-    final destination = "blink_$_generate"; // path ที่จะใส่ลง
-    final ref = FirebaseStorage.instance.ref(destination);
-    UploadTask uploadTask = ref.putFile(filePath);
-    print("upload ... ");
-    final uploadUrl = await (await uploadTask).ref.getDownloadURL();
-    print("real URL $uploadUrl");
-    final parsedData = Uri.encodeComponent(uploadUrl);
-    print("encode URL :$parsedData");
-
-    final response = await http.post(
-      Uri.parse(url + "?url=" + parsedData),
-      headers: <String, String>{'Content-Type': 'application/json'}, // metra
-      body: jsonEncode({"key": _generate}),
-    );
-
-    if (response.statusCode == 200) {
-      print("Success ${response.statusCode}");
-    } else {
-      print("not send post ${response.body}");
-    }
-  }
-
-  Future _uploadForTime(
-    File filePath,
-  ) async {
-    const url = "https://my-app-vkvof.ondigitalocean.app/blinkduration";
-    final String _generate = getRandomString(12);
-    _generateList.add(_generate);
-    print(_generateList); // ชื่อไฟลื
-    final destination = "Time_$_generate"; // path ที่จะใส่ลง
-    final ref = FirebaseStorage.instance.ref(destination);
-    UploadTask uploadTask = ref.putFile(filePath);
-    print("upload duration ... ");
-    final uploadUrl = await (await uploadTask).ref.getDownloadURL();
-    final parsedData = Uri.encodeComponent(uploadUrl);
-    print("URL : $parsedData");
-    final response = await http.post(
-      Uri.parse(url + "?url=" + parsedData),
-      headers: <String, String>{'Content-Type': 'application/json'}, // meta
-      body: jsonEncode({"key": _generate}),
-    );
-
-    if (response.statusCode == 200) {
-      print("Success ${response.statusCode}");
-    } else {
-      print("not send post ${response.body}");
-    }
   }
 
   @override

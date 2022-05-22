@@ -1,5 +1,5 @@
-import 'package:eye_examination/addcase_screen.dart';
-import 'package:eye_examination/home_screen.dart';
+import 'package:eye_examination/home.dart';
+import 'package:eye_examination/history.dart';
 import 'package:flutter/material.dart';
 import 'about.dart';
 
@@ -10,7 +10,7 @@ class BottomBarSelect extends StatefulWidget {
 
 class _BottomBarSelectState extends State<BottomBarSelect> {
   int _selectedIndex = 0;
-  final List<Widget> _widgetSelect = [AddCaseScreen(), HomeScreen(), About()];
+  final List<Widget> _widgetSelect = [Home(), History(), About()];
 
   void _onItemTap(int index) {
     setState(() {

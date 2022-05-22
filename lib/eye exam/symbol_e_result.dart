@@ -68,15 +68,20 @@ class SymbolEResult extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 0,
-            child: TextButton(
+            bottom: 70,
+            left: size.width * 0.35,
+            child: TextButton.icon(
+              icon: Icon(Icons.arrow_back_ios),
               onPressed: () {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: ((context) => BottomBarSelect())));
               },
-              child: Text("Back"),
+              label: Text(
+                "Back",
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           )
         ],

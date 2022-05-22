@@ -1,16 +1,16 @@
 import 'package:camera/camera.dart';
-import 'package:eye_examination/addcase_screen.dart';
+import 'package:eye_examination/dry%20eye/dry_eye_question.dart';
+import 'package:eye_examination/home.dart';
 import 'package:eye_examination/bottom_bar.dart';
-import 'package:eye_examination/color_blind_instruction.dart';
-import 'package:eye_examination/color_blind_result.dart';
-import 'package:eye_examination/color_blind_test.dart';
-import 'package:eye_examination/dry_blink_test.dart';
-import 'package:eye_examination/dry_eye.dart';
-import 'package:eye_examination/eye_exam.dart';
+import 'package:eye_examination/color%20blind/color_blind_instruction.dart';
+import 'package:eye_examination/color%20blind/color_blind_result.dart';
+import 'package:eye_examination/color%20blind/color_blind_test.dart';
+import 'package:eye_examination/dry%20eye/dry_eye_test.dart';
+import 'package:eye_examination/eye%20exam/eye_exam.dart';
 import 'package:eye_examination/google_signin_provider.dart';
 import 'package:eye_examination/manage.dart';
 import 'package:eye_examination/about.dart';
-import 'package:eye_examination/eye_exam_test.dart';
+import 'package:eye_examination/eye%20exam/eye_exam_test.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -47,20 +47,16 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.blue.shade100),
           //initialRoute: "/",
           routes: {
-            AddCaseScreen.routeName1: (context) => EyeExam(),
-            AddCaseScreen.routeName2: (context) => ColorBlindInstruction(),
-            AddCaseScreen.routeName3: (context) => DryEye(),
+            Home.routeName1: (context) => EyeExam(),
+            Home.routeName2: (context) => ColorBlindInstruction(),
+            Home.routeName3: (context) => const DryEyeTest(),
             ColorBlindForm.routeName: (context) => ColorBlindTest(),
-            // ColorBlindInstruction.routeName: (context) => ColorBlindForm(),
             ColorBlindResult.routeName: (context) => BottomBarSelect(),
 
             // more route
             About.routeName: (context) => HomePageManage(),
             // eye exam
             EyeExam.routeSymbolW: (context) => EyeExamTest(),
-            DryBlinkTest.routeName: (context) => DryEye(),
-            // eye dry
-            // Dummy3.routeName: (context) => EyeDry()
           },
         ),
       );
