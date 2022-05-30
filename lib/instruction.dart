@@ -10,20 +10,11 @@ class Instruction extends StatelessWidget {
         ? Stack(
             children: [
               Positioned(
-                left: 50,
+                left: size.width * 0.27,
                 top: size.height * 0.3,
                 child: Image.asset(
                   "assets/images/unknown.png",
-                  width: size.width * 0.7,
-                  height: size.height * 0.3,
-                ),
-              ),
-              Positioned(
-                left: size.width * 0.32,
-                top: size.height * 0.65,
-                child: const Text(
-                  "dont have data",
-                  style: TextStyle(fontSize: 20),
+                  width: size.width * 0.5,
                 ),
               ),
             ],
@@ -31,9 +22,12 @@ class Instruction extends StatelessWidget {
         : Stack(
             children: [
               Positioned(
-                left: 50,
-                top: 110,
-                child: Image.asset("assets/images/unknown.png"),
+                left: size.width * 0.27,
+                top: size.height * 0.3,
+                child: Image.asset(
+                  "assets/images/unknown.png",
+                  width: size.width * 0.5,
+                ),
               ),
             ],
           );

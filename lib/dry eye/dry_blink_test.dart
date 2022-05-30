@@ -260,53 +260,50 @@ class _DryBlinkTestState extends State<DryBlinkTest>
           ? Scaffold(
               body: Stack(
                 children: [
-                  AspectRatio(
-                    aspectRatio: 1 / controller!.value.aspectRatio,
-                    child: Stack(
-                      children: [
-                        controller!.buildPreview(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 35, horizontal: 25),
-                          child: Text(
-                            timeOut.toString(),
-                            style: const TextStyle(
-                                fontSize: 28, fontWeight: FontWeight.bold),
-                          ),
+                  Stack(
+                    children: [
+                      CameraPreview(controller!),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 35, horizontal: 25),
+                        child: Text(
+                          timeOut.toString(),
+                          style: const TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(5.0)),
-                              width: size.width,
-                              height: size.height * 0.08,
-                              child: IconButton(
-                                  onPressed: () async {
-                                    if (_isRecordingInProgress) {
-                                    } else {
-                                      _settimeAndRecord();
-                                      await startVideoRecording();
-                                    }
-                                  },
-                                  icon: _isRecordingInProgress
-                                      ? const Icon(
-                                          Icons.circle,
-                                          color: Colors.red,
-                                          size: 45,
-                                        )
-                                      : const Icon(
-                                          Icons.circle,
-                                          color: Colors.white,
-                                          size: 45,
-                                        )),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Colors.black87,
+                                borderRadius: BorderRadius.circular(5.0)),
+                            width: size.width,
+                            height: size.height * 0.08,
+                            child: IconButton(
+                                onPressed: () async {
+                                  if (_isRecordingInProgress) {
+                                  } else {
+                                    _settimeAndRecord();
+                                    await startVideoRecording();
+                                  }
+                                },
+                                icon: _isRecordingInProgress
+                                    ? const Icon(
+                                        Icons.circle,
+                                        color: Colors.red,
+                                        size: 45,
+                                      )
+                                    : const Icon(
+                                        Icons.circle,
+                                        color: Colors.white,
+                                        size: 45,
+                                      )),
+                          ),
+                        ],
+                      )
+                    ],
                   )
                 ],
               ),

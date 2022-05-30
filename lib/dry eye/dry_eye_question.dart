@@ -42,6 +42,7 @@ class _DryEyeQuestionState extends State<DryEyeQuestion> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -69,8 +70,8 @@ class _DryEyeQuestionState extends State<DryEyeQuestion> {
                 child: Text(
                   _questions[_questionIndex]['question'] as String,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16.7,
+                  style: TextStyle(
+                    fontSize: size.width * 0.039,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                   ),

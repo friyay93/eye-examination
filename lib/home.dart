@@ -48,7 +48,7 @@ class Home extends StatelessWidget {
               height: size.height * 0.17,
               right: size.width * 0.06,
               child: SizedBox(
-                width: 50,
+                width: size.width * 0.1,
                 child: Image.asset("assets/images/sheep_splash.png"),
               ),
             ),
@@ -60,8 +60,8 @@ class Home extends StatelessWidget {
                 child: Image.asset(
                   "assets/images/under_bar.jpg",
                   fit: BoxFit.cover,
-                  width: 320,
-                  height: 136,
+                  width: size.width * 0.9,
+                  height: size.height * 0.23,
                 ),
               ),
             ),
@@ -75,7 +75,7 @@ class Home extends StatelessWidget {
             ),
             Positioned(
               top: size.height * 0.46,
-              width: 320,
+              width: size.width * 0.87,
               right: 0,
               child: InkWell(
                 onTap: () => Navigator.pushNamed(context, Home.routeName3),
@@ -99,7 +99,7 @@ class Home extends StatelessWidget {
                       ),
                       const Spacer(),
                       SizedBox(
-                        width: 30,
+                        width: size.width * 0.07,
                         child: Image.asset("assets/images/eyedry_icon.png"),
                       ),
                     ],
@@ -109,7 +109,7 @@ class Home extends StatelessWidget {
             ),
             Positioned(
               top: size.height * 0.61,
-              width: 320,
+              width: size.width * 0.87,
               right: 0,
               child: InkWell(
                 onTap: () => Navigator.pushNamed(context, Home.routeName1),
@@ -133,7 +133,7 @@ class Home extends StatelessWidget {
                       ),
                       const Spacer(),
                       SizedBox(
-                        width: 30,
+                        width: size.width * 0.07,
                         child: Image.asset("assets/images/eye-exam.png"),
                       ),
                     ],
@@ -143,7 +143,7 @@ class Home extends StatelessWidget {
             ),
             Positioned(
               top: size.height * 0.76,
-              width: 320,
+              width: size.width * 0.87,
               right: 0,
               child: InkWell(
                 onTap: () => Navigator.pushNamed(context, Home.routeName2),
@@ -167,7 +167,7 @@ class Home extends StatelessWidget {
                       ),
                       const Spacer(),
                       SizedBox(
-                        width: 30,
+                        width: size.width * 0.07,
                         child: Image.asset("assets/images/color-blind.png"),
                       ),
                     ],

@@ -14,10 +14,12 @@ class History extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
-        child: Scaffold(
-      body:
-          user != null ? _userTransaction(context) : _guestTransaction(context),
-    ));
+      child: Scaffold(
+        body: user != null
+            ? _userTransaction(context)
+            : _guestTransaction(context),
+      ),
+    );
   }
 }
 
